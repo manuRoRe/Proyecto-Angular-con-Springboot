@@ -1,0 +1,26 @@
+<div class="container">
+  <h2>Lista de Usuarias</h2>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Admin</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuaria of usuarias">
+        <td>{{ usuaria.id }}</td>
+        <td>{{ usuaria.nombre || "N/A" }}</td>
+        <td>{{ usuaria.email }}</td>
+        <td>{{ usuaria.admin }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
