@@ -1,11 +1,11 @@
 export interface Usuario {
   id: number;
   email: String;
-  nombre?: String | null;
-  apellidos?: String | null;
-  sexo?: string | null;
+  nombre: String;
+  apellidos: String;
+  sexo: string;
   password: string;
-  aficiones?: string | null;
-  pais?: string | null;
-  admin?: number | null;
+  aficiones: string;
+  pais: string;
+  admin: number;
 }
