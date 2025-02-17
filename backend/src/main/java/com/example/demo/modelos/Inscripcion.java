@@ -15,9 +15,7 @@ public class Inscripcion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private long id;
-
-	
+	private int id;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="fecha_inscripcion")
@@ -35,6 +33,9 @@ public class Inscripcion implements Serializable {
 
 	public Inscripcion() {
 	}
+	
+	
+
 	public Inscripcion(Date fechaInscripcion, Curso curso, Usuario usuario) {
 		super();
 		this.fechaInscripcion = fechaInscripcion;
@@ -42,11 +43,13 @@ public class Inscripcion implements Serializable {
 		this.usuario = usuario;
 	}
 
-	public long getId() {
+
+
+	public int getId() {
 		return this.id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

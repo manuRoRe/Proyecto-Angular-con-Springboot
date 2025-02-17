@@ -21,20 +21,20 @@ public class Centro implements Serializable {
 	@Lob
 	private byte[] imagen;
 
-	private String nombre;
-
-	@Column(name="sitio_web")
-	private String sitioWeb;
-
-	public Centro() {
-	}
-	
 	public Centro(String direccion, byte[] imagen, String nombre, String sitioWeb) {
 		super();
 		this.direccion = direccion;
 		this.imagen = imagen;
 		this.nombre = nombre;
 		this.sitioWeb = sitioWeb;
+	}
+
+	private String nombre;
+
+	@Column(name="sitio_web")
+	private String sitioWeb;
+
+	public Centro() {
 	}
 
 	public int getId() {

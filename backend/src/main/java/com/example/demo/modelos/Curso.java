@@ -2,7 +2,6 @@ package com.example.demo.modelos;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
-import java.util.List;
 
 
 /**
@@ -17,22 +16,20 @@ public class Curso implements Serializable {
 	@Id
 	private int id;
 
-	@Lob
 	private String descripcion;
+
+	@Column(name="id_centro")
+	private int idCentro;
 
 	private String nombre;
 
-	
-
-	//bi-directional many-to-one association to Inscripcion
-	@OneToMany(mappedBy="curso")
-	private List<Inscripcion> inscripcions;
-
 	public Curso() {
 	}
-	public Curso(String descripcion, String nombre) {
+
+	public Curso(String descripcion, String nombre,int idCentro) {
 		super();
 		this.descripcion = descripcion;
+		this.idCentro = idCentro;
 		this.nombre = nombre;
 	}
 
@@ -52,34 +49,20 @@ public class Curso implements Serializable {
 		this.descripcion = descripcion;
 	}
 
+	public int getIdCentro() {
+		return this.idCentro;
+	}
+
+	public void setIdCentro(int idCentro) {
+		this.idCentro = idCentro;
+	}
+
 	public String getNombre() {
 		return this.nombre;
 	}
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public List<Inscripcion> getInscripcions() {
-		return this.inscripcions;
-	}
-
-	public void setInscripcions(List<Inscripcion> inscripcions) {
-		this.inscripcions = inscripcions;
-	}
-
-	public Inscripcion addInscripcion(Inscripcion inscripcion) {
-		getInscripcions().add(inscripcion);
-		inscripcion.setCurso(this);
-
-		return inscripcion;
-	}
-
-	public Inscripcion removeInscripcion(Inscripcion inscripcion) {
-		getInscripcions().remove(inscripcion);
-		inscripcion.setCurso(null);
-
-		return inscripcion;
 	}
 
 }

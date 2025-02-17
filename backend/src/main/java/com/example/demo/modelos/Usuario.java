@@ -21,6 +21,8 @@ public class Usuario implements Serializable {
 
 	private String aficiones;
 
+	private String apellidos;
+
 	private String email;
 
 	private String nombre;
@@ -34,11 +36,18 @@ public class Usuario implements Serializable {
 	//bi-directional many-to-one association to Inscripcion
 	@OneToMany(mappedBy="usuario")
 	private List<Inscripcion> inscripcions;
+
+	public Usuario() {
+	}
 	
-	public Usuario(byte admin, String aficiones, String email, String nombre, String pais, String password, String sexo) {
+	
+
+	public Usuario(byte admin, String aficiones, String apellidos, String email, String nombre, String pais,
+			String password, String sexo) {
 		super();
 		this.admin = admin;
 		this.aficiones = aficiones;
+		this.apellidos = apellidos;
 		this.email = email;
 		this.nombre = nombre;
 		this.pais = pais;
@@ -46,8 +55,7 @@ public class Usuario implements Serializable {
 		this.sexo = sexo;
 	}
 
-	public Usuario() {
-	}
+
 
 	public int getId() {
 		return this.id;
@@ -71,6 +79,14 @@ public class Usuario implements Serializable {
 
 	public void setAficiones(String aficiones) {
 		this.aficiones = aficiones;
+	}
+
+	public String getApellidos() {
+		return this.apellidos;
+	}
+
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
 	}
 
 	public String getEmail() {

@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.controladores.usuarioController.DatosAltaUsuario;
+import com.example.demo.modelos.Centro;
 import com.example.demo.modelos.Curso;
 import com.example.demo.modelos.Usuario;
+import com.example.demo.repositorios.centroRepositorio;
 import com.example.demo.repositorios.cursoRepositorio;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,6 +29,9 @@ import jakarta.servlet.http.HttpServletRequest;
 public class cursoController {
 	@Autowired
     cursoRepositorio curRep;
+	
+	@Autowired
+    centroRepositorio cenRep;
 	
 	@GetMapping("/obtener")
     public List<DTO> getCursos() {
@@ -54,7 +59,7 @@ public class cursoController {
 	
 	@PostMapping(path = "/crear")
     public void aniadirUsuario(@RequestBody DatosAltaCurso d, HttpServletRequest request) {
-        curRep.save(new Curso(d.nombre,d.descripcion));
+        curRep.save(new Curso(d.descripcion,d.nombre,d.id_centro));
     }
 	
 	@PutMapping("/actualizar/{id}")
@@ -75,10 +80,12 @@ public class cursoController {
 	public static class DatosAltaCurso {
         String nombre;
 		String descripcion;
-		public DatosAltaCurso(String nombre, String descripcion) {
+		int id_centro; 
+		public DatosAltaCurso(String nombre, String descripcion,int id_centro) {
 			super();
 			this.nombre = nombre;
 			this.descripcion = descripcion;
+			this.id_centro=id_centro;
 		}
     }
 	

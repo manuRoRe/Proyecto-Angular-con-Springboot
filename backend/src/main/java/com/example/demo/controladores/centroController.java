@@ -51,61 +51,60 @@ public class centroController {
 	public DTO getCentro(@PathVariable int id) {
 		Centro centro = cenRep.findById(id);
 		DTO dtoI = new DTO();
-		if (centro != null) {
+		if(centro!=null) {
 			dtoI.put("id", centro.getId());
-			dtoI.put("direccion", centro.getDireccion());
+			dtoI.put("direccion",centro.getDireccion());
 			dtoI.put("nombre", centro.getNombre());
 			dtoI.put("sitio_web", centro.getSitioWeb());
 			dtoI.put("imagen", centro.getImagen());
-		} else {
+		}else {
 			dtoI.put("result", false);
 		}
 		return dtoI;
 	}
-
+	
 	@PostMapping(path = "/crear")
-	public void aniadirUsuario(@RequestBody DatosAltaCentro d, HttpServletRequest request) {
-		cenRep.save(new Centro(d.direccion, DatatypeConverter.parseBase64Binary(d.imagen), d.nombre, d.sitio_web));
-	}
-
+    public void aniadirUsuario(@RequestBody DatosAltaCentro d, HttpServletRequest request) {
+        cenRep.save(new Centro(d.direccion, DatatypeConverter.parseBase64Binary(d.imagen),d.nombre,d.sitio_web));
+    }
+	
 	@PutMapping("/actualizar/{id}")
-	public DTO actualizarUsuario(@PathVariable int id, @RequestBody DatosAltaCentro d) {
+    public DTO actualizarUsuario(@PathVariable int id, @RequestBody DatosAltaCentro d) {
 		DTO dtoI = new DTO();
-		Centro c = cenRep.findById(id);
-		if (c != null) {
-			c.setNombre(d.nombre);
-			c.setDireccion(d.direccion);
-			c.setImagen(DatatypeConverter.parseBase64Binary(d.imagen));
-			c.setSitioWeb(d.sitio_web);
-			cenRep.save(c);
-			dtoI.put("result", true);
-		} else {
-			dtoI.put("result", false);
-		}
-		return dtoI;
-	}
+        Centro c=cenRep.findById(id);
+        if(c!=null) {
+        	c.setNombre(d.nombre);
+            c.setDireccion(d.direccion);
+            c.setImagen(DatatypeConverter.parseBase64Binary(d.imagen));
+            c.setSitioWeb(d.sitio_web);
+            cenRep.save(c);
+            dtoI.put("result", true);
+        }else {
+        	dtoI.put("result", false);
+        }
+        return dtoI;
+    }
 
-	// Eliminar usuario
-	@DeleteMapping("/eliminar/{id}")
-	public DTO eliminarUsuario(@PathVariable int id) {
-		DTO dtoI = new DTO();
-		Centro c = cenRep.findById(id);
-		if (c != null) {
-			cenRep.delete(c);
-			dtoI.put("result", true);
-		} else {
-			dtoI.put("result", false);
-		}
-		return dtoI;
-
-	}
-
-	public static class DatosAltaCentro {
-		String nombre;
-		String sitio_web;
-		String imagen;
-		String direccion;
-
+    // Eliminar usuario
+    @DeleteMapping("/eliminar/{id}")
+    public DTO eliminarUsuario(@PathVariable int id) {
+    	DTO dtoI = new DTO();
+        Centro c=cenRep.findById(id);
+        if(c!=null) {
+        	cenRep.delete(c);
+            dtoI.put("result", true);
+        }else {
+        	dtoI.put("result", false);
+        }
+        return dtoI;
+        
+    }
+    
+    public static class DatosAltaCentro{
+    	String nombre;
+    	String sitio_web;
+    	String imagen;
+    	String direccion;
 		public DatosAltaCentro(String nombre, String sitio_web, String imagen, String direccion) {
 			super();
 			this.nombre = nombre;
@@ -113,5 +112,5 @@ public class centroController {
 			this.imagen = imagen;
 			this.direccion = direccion;
 		}
-	}
+    }
 }
