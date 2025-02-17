@@ -6,15 +6,19 @@ import { Usuario } from '../interfaces/usuario';
 @Injectable({
   providedIn: 'root',
 })
-export class UsuarioService {
+export class BDService {
   //URL de listado de empleados del backend
-  private baseURL = 'http://localhost:9090/usuario';
+  private baseURL = 'http://localhost:9090';
 
   constructor(private http: HttpClient) {}
 
   //metodo para obtener los empleados
   obtenerListaEmpleados(): Observable<Usuario[]> {
-    return this.http.get<Usuario[]>(this.baseURL + '/obtener');
+    return this.http.get<Usuario[]>(this.baseURL + '/usuario/obtener');
+  }
+
+  aniadirUser(user: Usuario): Observable<Usuario> {
+    return this.http.post<Usuario>(this.baseURL + '/usuario/aniadir', user);
   }
 
   //este metodo sirve para registrar un empleado

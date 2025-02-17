@@ -1,26 +1,69 @@
-<div class="container">
-  <h2>Lista de Usuarias</h2>
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort>
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+      <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+    </ng-container>
 
-  <div *ngIf="errorMessage" class="alert alert-danger">
-    {{ errorMessage }}
-  </div>
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+      <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+    </ng-container>
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Email</th>
-        <th>Admin</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let usuaria of usuarias">
-        <td>{{ usuaria.id }}</td>
-        <td>{{ usuaria.nombre || "N/A" }}</td>
-        <td>{{ usuaria.email }}</td>
-        <td>{{ usuaria.admin }}</td>
-      </tr>
-    </tbody>
+    <!-- Nombre Column -->
+    <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+      <td mat-cell *matCellDef="let element">{{ element.nombre }}</td>
+    </ng-container>
+
+    <!-- Apellidos Column -->
+    <ng-container matColumnDef="apellidos">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Apellidos</th>
+      <td mat-cell *matCellDef="let element">{{ element.apellidos }}</td>
+    </ng-container>
+
+    <!-- Sexo Column -->
+    <ng-container matColumnDef="sexo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Sexo</th>
+      <td mat-cell *matCellDef="let element">{{ element.sexo }}</td>
+    </ng-container>
+
+    <!-- Password Column -->
+    <ng-container matColumnDef="password">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Password</th>
+      <td mat-cell *matCellDef="let element">{{ element.password }}</td>
+    </ng-container>
+
+    <!-- Aficiones Column -->
+    <ng-container matColumnDef="aficiones">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Aficiones</th>
+      <td mat-cell *matCellDef="let element">{{ element.aficiones }}</td>
+    </ng-container>
+
+    <!-- Pais Column -->
+    <ng-container matColumnDef="pais">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>País</th>
+      <td mat-cell *matCellDef="let element">{{ element.pais }}</td>
+    </ng-container>
+
+    <!-- Admin Column -->
+    <ng-container matColumnDef="admin">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Admin</th>
+      <td mat-cell *matCellDef="let element">{{ element.admin }}</td>
+    </ng-container>
+
+    <!-- Header and Row declarations -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
+
+  <!-- Paginación -->
+  <mat-paginator
+    [length]="dataSource.data.length"
+    [pageSize]="5"
+    [pageSizeOptions]="[5, 10, 25]"
+  >
+  </mat-paginator>
 </div>

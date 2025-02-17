@@ -1,12 +1,10 @@
 <mat-toolbar color="primary">
   <span>Academia Online</span>
   <span class="spacer"></span>
-  <button mat-button (click)="login()">Login</button>
-  <button mat-raised-button color="accent" (click)="register()">
-    Registro
-  </button>
+  <button mat-button>Login</button>
+  <button mat-button>Registrar</button>
 </mat-toolbar>
 <div class="content">
   <h1>Bienvenido a la Academia</h1>
-  <p>Aprende y crece con nuestros cursos.</p>
+  <app-usuarias-list></app-usuarias-list>
 </div>

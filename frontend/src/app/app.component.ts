@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog'; // Importar MatDialog
 import { UsuariasListComponent } from './components/usuarias-list/usuarias-list.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
-import { provideAnimations } from '@angular/platform-browser/animations';
-import { bootstrapApplication } from '@angular/platform-browser';
+import { RegistroComponent } from './components/registro/registro.component';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +13,8 @@ import { bootstrapApplication } from '@angular/platform-browser';
     MatButtonModule,
     RouterOutlet,
     UsuariasListComponent,
+    MatDialogModule,
+    RegistroComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -20,11 +22,8 @@ import { bootstrapApplication } from '@angular/platform-browser';
 export class AppComponent {
   title = 'Mi Proyecto';
 
+  constructor(private dialog: MatDialog) {}
   login() {
     console.log('Redirigiendo a la página de Login');
-  }
-
-  register() {
-    console.log('Redirigiendo a la página de Registro');
   }
 }
