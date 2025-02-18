@@ -1,20 +1,20 @@
-<!-- src/app/components/registro/registro.component.html -->
-<h2>Formulario de Registro</h2>
-<form>
-  <mat-form-field appearance="outline">
-    <label>Nombre</label>
-    <input matInput placeholder="Tu nombre" required />
-  </mat-form-field>
+<div class="registro-container">
+  <form (ngSubmit)="onSubmit()" [formGroup]="registroForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Nombre de usuario</mat-label>
+      <input matInput formControlName="nombre" required />
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <label>Correo</label>
-    <input matInput type="email" placeholder="Tu correo" required />
-  </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" required />
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <label>Contraseña</label>
-    <input matInput type="password" placeholder="Contraseña" required />
-  </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Contraseña</mat-label>
+      <input matInput type="password" formControlName="password" required />
+    </mat-form-field>
 
-  <button mat-raised-button color="primary" type="submit">Registrar</button>
-</form>
+    <button mat-raised-button color="primary" type="submit">Registrar</button>
+  </form>
+</div>

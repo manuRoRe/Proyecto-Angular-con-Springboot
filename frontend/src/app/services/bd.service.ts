@@ -2,6 +2,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Usuario } from '../interfaces/usuario';
+import { DatosAltaUsuario } from '../interfaces/datosAltaUsuario';
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +18,8 @@ export class BDService {
     return this.http.get<Usuario[]>(this.baseURL + '/usuario/obtener');
   }
 
-  aniadirUser(user: Usuario): Observable<Usuario> {
-    return this.http.post<Usuario>(this.baseURL + '/usuario/aniadir', user);
+  registrarUsuario(datos: DatosAltaUsuario): Observable<void> {
+    return this.http.post<void>(this.baseURL + '/usuario/crear', datos);
   }
 
   //este metodo sirve para registrar un empleado
