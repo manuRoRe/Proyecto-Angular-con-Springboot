@@ -1,29 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog'; // Importar MatDialog
-import { UsuariasListComponent } from './components/usuarias-list/usuarias-list.component';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { RegistroComponent } from './components/registro/registro.component';
+import { HomeComponent } from './components/home/home.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @Component({
   selector: 'app-root',
-  imports: [
-    MatToolbarModule,
-    MatButtonModule,
-    RouterOutlet,
-    UsuariasListComponent,
-    MatDialogModule,
-    RegistroComponent,
-  ],
+  imports: [RouterOutlet, HomeComponent, NavbarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
   title = 'Mi Proyecto';
-
-  constructor(private dialog: MatDialog) {}
-  login() {
-    console.log('Redirigiendo a la página de Login');
-  }
 }
