@@ -52,28 +52,18 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.loginForm.invalid) {
-      return;
+    if (this.loginForm.valid) {
+      const datosUsuario: DatosAutenticaUsuario = this.loginForm.value;
+
+      this.authService.login(datosUsuario).subscribe({
+        next: (response) => {
+          if (response.result === 'Succes') {
+            localStorage.setItem('usuario', response.nombre); // Guardar nombre en localStorage
+            this.router.navigate(['/home']); // Redirigir a Home
+          }
+        },
+        error: (err) => console.error('Error en login:', err),
+      });
     }
-
-    const datosLogin: DatosAutenticaUsuario = {
-      email: this.loginForm.value.email,
-      password: this.loginForm.value.password,
-    };
-
-    this.authService.login(datosLogin).subscribe({
-      next: (response) => {
-        if (response.result === 'Succes') {
-          console.log('Login exitoso');
-          localStorage.setItem('jwt', response.jwt);
-          this.router.navigate(['/home']);
-        } else {
-          console.error('Credenciales incorrectas');
-        }
-      },
-      error: (error) => {
-        console.error('Error en el login:', error);
-      },
-    });
   }
 }

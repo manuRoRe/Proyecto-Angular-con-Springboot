@@ -1,7 +1,24 @@
-<mat-toolbar color="primary">
-  <span>Academia Online</span>
-  <span class="spacer"></span>
-  <button mat-button [routerLink]="'/home'">Inicio</button>
-  <button mat-button [routerLink]="'/registro'">Registrarse</button>
-  <button mat-button [routerLink]="'/login'">Iniciar Sesión</button>
-</mat-toolbar>
+<nav class="navbar">
+  <div class="navbar-left">
+    <a routerLink="/home">🏠 Inicio</a>
+  </div>
+
+  <div class="navbar-right">
+    <!-- Si el usuario está autenticado, mostrar menú con su nombre -->
+    <ng-container *ngIf="usuario; else mostrarBotones">
+      <button mat-button [matMenuTriggerFor]="menu">{{ usuario }}</button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="/mi-cuenta">Mi cuenta</button>
+        <button mat-menu-item (click)="cerrarSesion()">Cerrar sesión</button>
+      </mat-menu>
+    </ng-container>
+
+    <!-- Si no hay usuario autenticado, mostrar botones de login y registro -->
+    <ng-template #mostrarBotones>
+      <button mat-button routerLink="/login">Iniciar sesión</button>
+      <button mat-raised-button color="primary" routerLink="/registro">
+        Registrarse
+      </button>
+    </ng-template>
+  </div>
+</nav>
