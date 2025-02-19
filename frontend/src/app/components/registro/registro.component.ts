@@ -13,15 +13,29 @@ import { BDService } from '../../services/bd.service';
 import { DatosAltaUsuario } from '../../interfaces/datosAltaUsuario';
 import { Router } from '@angular/router';
 
+// 📌 Importaciones de Angular Material
+import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatRadioModule } from '@angular/material/radio';
+
 @Component({
   selector: 'app-registro',
   standalone: true,
   imports: [
+    ReactiveFormsModule,
     CommonModule,
     ReactiveFormsModule,
     MatInputModule,
     MatButtonModule,
     MatFormFieldModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatGridListModule,
+    MatRadioModule,
   ],
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.css'],
@@ -39,16 +53,29 @@ export class RegistroComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(4)]],
       admin: [0],
-      aficiones: ['Natación, Viajes'],
-      apellidos: ['rr'],
-      pais: ['España'],
-      sexo: ['Masculino'],
+      aficiones: [''],
+      apellidos: [''],
+      pais: [''],
+      sexo: [''],
     });
   }
 
   onSubmit(): void {
     if (this.registroForm.valid) {
-      const usuario: DatosAltaUsuario = this.registroForm.value;
+      // Convertir valores vacíos en null
+      const formValue = this.registroForm.value;
+
+      const usuario: DatosAltaUsuario = {
+        email: formValue.email || null,
+        nombre: formValue.nombre || null,
+        apellidos: formValue.apellidos || null,
+        sexo: formValue.sexo || null,
+        password: formValue.password || null,
+        aficiones: formValue.aficiones || null,
+        pais: formValue.pais || null,
+        admin: formValue.admin || 0, // Valor predeterminado para admin
+      };
+
       this.registroService.registrarUsuario(usuario).subscribe({
         next: () => {
           console.log('Usuario registrado exitosamente');
@@ -56,7 +83,7 @@ export class RegistroComponent {
         },
         error: (err) => {
           console.error('Error al registrar el usuario:', err);
-          alert('Error al registrar el usuario: ');
+          alert('Error al registrar el usuario');
         },
       });
     } else {

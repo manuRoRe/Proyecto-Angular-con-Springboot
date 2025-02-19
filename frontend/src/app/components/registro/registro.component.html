@@ -1,20 +1,93 @@
 <div class="registro-container">
-  <form (ngSubmit)="onSubmit()" [formGroup]="registroForm">
-    <mat-form-field appearance="fill">
-      <mat-label>Nombre de usuario</mat-label>
-      <input matInput formControlName="nombre" required />
-    </mat-form-field>
+  <mat-card class="registro-card">
+    <mat-card-title>Registro de Usuario</mat-card-title>
+    <mat-card-content>
+      <form (ngSubmit)="onSubmit()" [formGroup]="registroForm">
+        <mat-grid-list cols="2" rowHeight="2:1" gutterSize="16px">
+          <!-- Nombre -->
+          <mat-grid-tile>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Nombre *</mat-label>
+              <input matInput formControlName="nombre" required />
+            </mat-form-field>
+          </mat-grid-tile>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Email</mat-label>
-      <input matInput formControlName="email" required />
-    </mat-form-field>
+          <!-- Apellidos (Opcional) -->
+          <mat-grid-tile>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Apellidos</mat-label>
+              <input
+                matInput
+                formControlName="apellidos"
+                placeholder="Opcional"
+              />
+            </mat-form-field>
+          </mat-grid-tile>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Contraseña</mat-label>
-      <input matInput type="password" formControlName="password" required />
-    </mat-form-field>
+          <!-- Email -->
+          <mat-grid-tile>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Email *</mat-label>
+              <input matInput type="email" formControlName="email" required />
+            </mat-form-field>
+          </mat-grid-tile>
 
-    <button mat-raised-button color="primary" type="submit">Registrar</button>
-  </form>
+          <!-- Sexo (Opcional) -->
+          <mat-grid-tile>
+            <mat-label>Sexo</mat-label>
+            <mat-radio-group formControlName="sexo">
+              <mat-radio-button value="Masculino">Masculino</mat-radio-button>
+              <mat-radio-button value="Femenino">Femenino</mat-radio-button>
+            </mat-radio-group>
+          </mat-grid-tile>
+
+          <!-- Contraseña -->
+          <mat-grid-tile>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Contraseña *</mat-label>
+              <input
+                matInput
+                type="password"
+                formControlName="password"
+                required
+              />
+            </mat-form-field>
+          </mat-grid-tile>
+
+          <!-- Aficiones (Opcional) -->
+          <mat-grid-tile>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Aficiones</mat-label>
+              <input
+                matInput
+                formControlName="aficiones"
+                placeholder="Opcional"
+              />
+            </mat-form-field>
+          </mat-grid-tile>
+
+          <!-- País (Opcional) -->
+          <mat-grid-tile>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Pais</mat-label>
+              <mat-select formControlName="pais">
+                <mat-option value="España">España</mat-option>
+                <mat-option value="Alemania">Alemania</mat-option>
+                <mat-option value="Inglaterra">Inglaterra</mat-option>
+                <mat-option value="Francia">Francia</mat-option>
+                <mat-option value="Italia">Italia</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mat-grid-tile>
+        </mat-grid-list>
+
+        <!-- Botón de envío -->
+        <div class="boton-container">
+          <button mat-raised-button id="btSubmit" type="submit">
+            Registrar
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
 </div>

@@ -1,15 +1,29 @@
 .registro-container {
+  color: white;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin-top: 50px;
+  height: 100vh;
+  background-color: rgb(104, 104, 85);
 }
 
-mat-form-field {
-  width: 100%;
-  margin-bottom: 20px;
+#btSubmit{
+  background-color: beige;
+  color: black;
 }
 
-button {
+.registro-card {
+  width: 500px;
+  padding: 20px;
+  background-color: rgb(70, 58, 44);
+}
+
+.full-width {
   width: 100%;
+}
+
+.boton-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
