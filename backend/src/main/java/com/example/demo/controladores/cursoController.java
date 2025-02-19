@@ -1,6 +1,7 @@
 package com.example.demo.controladores;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +29,13 @@ import jakarta.xml.bind.DatatypeConverter;
 @RestController
 @RequestMapping("/curso")
 public class cursoController {
-	@Autowired
+    @Autowired
     cursoRepositorio curRep;
-	
-	@Autowired
+
+    @Autowired
     centroRepositorio cenRep;
-	
-	@GetMapping("/obtener")
+
+    @GetMapping("/obtener")
     public List<DTO> getCursos() {
         List<DTO> listaCursosDTO = new ArrayList<>();
         List<Curso> cursos = curRep.findAll();
@@ -43,33 +44,38 @@ public class cursoController {
             dtoCurso.put("id", u.getId());
             dtoCurso.put("nombre", u.getNombre());
             dtoCurso.put("descripcion", u.getDescripcion());
-            dtoCurso.put("imagen", u.getImagen());
+            if (u.getImagen() != null) {
+                String base64Image = Base64.getEncoder().encodeToString(u.getImagen());
+                dtoCurso.put("imagen", base64Image);
+            } else {
+                dtoCurso.put("imagen", null); // Si no hay imagen
+            }
             dtoCurso.put("curso", u.getIdCentro());
             listaCursosDTO.add(dtoCurso);
         }
         return listaCursosDTO;
     }
-	
-	@GetMapping("/obtener/{id}")
+
+    @GetMapping("/obtener/{id}")
     public DTO getCursoById(@PathVariable int id) {
-        Curso u= curRep.findById(id);
+        Curso u = curRep.findById(id);
         DTO dtoCurso = new DTO();
         dtoCurso.put("id", u.getId());
         dtoCurso.put("nombre", u.getNombre());
         dtoCurso.put("descripcion", u.getDescripcion());
         dtoCurso.put("imagen", u.getImagen());
         dtoCurso.put("curso", u.getIdCentro());
-        return dtoCurso;        
+        return dtoCurso;
     }
-	
-	@PostMapping(path = "/crear")
+
+    @PostMapping(path = "/crear")
     public void aniadirUsuario(@RequestBody DatosAltaCurso d, HttpServletRequest request) {
-        curRep.save(new Curso(d.descripcion,d.id_centro,DatatypeConverter.parseBase64Binary(d.imagen),d.nombre));
+        curRep.save(new Curso(d.descripcion, d.id_centro, DatatypeConverter.parseBase64Binary(d.imagen), d.nombre));
     }
-	
-	@PutMapping("/actualizar/{id}")
+
+    @PutMapping("/actualizar/{id}")
     public void actualizarUsuario(@PathVariable int id, @RequestBody DatosAltaCurso d) {
-        Curso c= curRep.findById(id);
+        Curso c = curRep.findById(id);
         c.setNombre(d.nombre);
         c.setDescripcion(d.descripcion);
         c.setIdCentro(d.id_centro);
@@ -80,22 +86,23 @@ public class cursoController {
     // Eliminar usuario
     @DeleteMapping("/eliminar/{id}")
     public void eliminarUsuario(@PathVariable int id) {
-         Curso c=curRep.findById(id);
-         curRep.delete(c);
+        Curso c = curRep.findById(id);
+        curRep.delete(c);
     }
-	
-	public static class DatosAltaCurso {
+
+    public static class DatosAltaCurso {
         String nombre;
-		String descripcion;
-		int id_centro; 
-		String imagen;
-		public DatosAltaCurso(String nombre, String descripcion,int id_centro,String imagen) {
-			super();
-			this.nombre = nombre;
-			this.descripcion = descripcion;
-			this.id_centro=id_centro;
-			this.imagen=imagen;
-		}
+        String descripcion;
+        int id_centro;
+        String imagen;
+
+        public DatosAltaCurso(String nombre, String descripcion, int id_centro, String imagen) {
+            super();
+            this.nombre = nombre;
+            this.descripcion = descripcion;
+            this.id_centro = id_centro;
+            this.imagen = imagen;
+        }
     }
-	
+
 }

@@ -1,0 +1,21 @@
+<div class="container">
+  <h2 class="text-center">Lista de Cursos</h2>
+  <div class="row">
+    <div class="col-md-4" *ngFor="let curso of cursos">
+      <div class="card mb-3">
+        <img
+          *ngIf="curso.imagen"
+          [src]="curso.imagen"
+          alt="Imagen del curso"
+          class="img-fluid"
+        />
+
+        <div class="card-body">
+          <h5 class="card-title">{{ curso.nombre }}</h5>
+          <p class="card-text">{{ curso.descripcion }}</p>
+          <p><strong>Centro ID:</strong> {{ curso.id }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

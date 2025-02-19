@@ -2,6 +2,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Usuario } from '../interfaces/usuario';
+import { Curso } from '../interfaces/curso';
 import { DatosAltaUsuario } from '../interfaces/datosAltaUsuario';
 
 @Injectable({
@@ -20,6 +21,10 @@ export class BDService {
 
   registrarUsuario(datos: DatosAltaUsuario): Observable<void> {
     return this.http.post<void>(this.baseURL + '/usuario/crear', datos);
+  }
+
+  obtenerCursos(): Observable<Curso[]> {
+    return this.http.get<Curso[]>(this.baseURL + '/curso/obtener');
   }
 
   //este metodo sirve para registrar un empleado
