@@ -22,6 +22,7 @@ import com.example.demo.repositorios.centroRepositorio;
 import com.example.demo.repositorios.cursoRepositorio;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.xml.bind.DatatypeConverter;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -42,6 +43,8 @@ public class cursoController {
             dtoCurso.put("id", u.getId());
             dtoCurso.put("nombre", u.getNombre());
             dtoCurso.put("descripcion", u.getDescripcion());
+            dtoCurso.put("imagen", u.getImagen());
+            dtoCurso.put("curso", u.getIdCentro());
             listaCursosDTO.add(dtoCurso);
         }
         return listaCursosDTO;
@@ -54,12 +57,14 @@ public class cursoController {
         dtoCurso.put("id", u.getId());
         dtoCurso.put("nombre", u.getNombre());
         dtoCurso.put("descripcion", u.getDescripcion());
+        dtoCurso.put("imagen", u.getImagen());
+        dtoCurso.put("curso", u.getIdCentro());
         return dtoCurso;        
     }
 	
 	@PostMapping(path = "/crear")
     public void aniadirUsuario(@RequestBody DatosAltaCurso d, HttpServletRequest request) {
-        curRep.save(new Curso(d.descripcion,d.nombre,d.id_centro));
+        curRep.save(new Curso(d.descripcion,d.id_centro,DatatypeConverter.parseBase64Binary(d.imagen),d.nombre));
     }
 	
 	@PutMapping("/actualizar/{id}")
@@ -67,6 +72,8 @@ public class cursoController {
         Curso c= curRep.findById(id);
         c.setNombre(d.nombre);
         c.setDescripcion(d.descripcion);
+        c.setIdCentro(d.id_centro);
+        c.setImagen(DatatypeConverter.parseBase64Binary(d.imagen));
         curRep.save(c);
     }
 
@@ -81,11 +88,13 @@ public class cursoController {
         String nombre;
 		String descripcion;
 		int id_centro; 
-		public DatosAltaCurso(String nombre, String descripcion,int id_centro) {
+		String imagen;
+		public DatosAltaCurso(String nombre, String descripcion,int id_centro,String imagen) {
 			super();
 			this.nombre = nombre;
 			this.descripcion = descripcion;
 			this.id_centro=id_centro;
+			this.imagen=imagen;
 		}
     }
 	

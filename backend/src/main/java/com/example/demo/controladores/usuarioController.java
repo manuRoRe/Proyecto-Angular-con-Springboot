@@ -3,9 +3,15 @@ package com.example.demo.controladores;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.jwtSecurity.AutenticadorJWT;
 import com.example.demo.modelos.Usuario;
@@ -41,17 +47,17 @@ public class usuarioController {
             dtoUsuaria.put("password", u.getPassword());
             dtoUsuaria.put("pais", u.getPais());
             dtoUsuaria.put("sexo", u.getSexo());
-            dtoUsuaria.put("admin", u.getAdmin());
-            dtoUsuaria.put("aficiones", u.getAficiones());
+            dtoUsuaria.put("Admin", u.getAdmin());
+            dtoUsuaria.put("Aficiones", u.getAficiones());
             listaUsuariosDTO.add(dtoUsuaria);
         }
         return listaUsuariosDTO;
     }
-
-    // Obtener usuario por ID
+    
+ // Obtener usuario por ID
     @GetMapping("/obtener/{id}")
     public DTO getUsuarioById(@PathVariable int id) {
-        Usuario u = usuRep.findById(id);
+        Usuario u= usuRep.findById(id);
         DTO dtoUsuaria = new DTO();
         dtoUsuaria.put("id", u.getId());
         dtoUsuaria.put("nombre", u.getNombre());
@@ -63,7 +69,7 @@ public class usuarioController {
         dtoUsuaria.put("Admin", u.getAdmin());
         dtoUsuaria.put("Aficiones", u.getAficiones());
         return dtoUsuaria;
-
+        
     }
 
     // Crear usuario
@@ -94,7 +100,7 @@ public class usuarioController {
     // Actualizar usuario
     @PutMapping("/actualizar/{id}")
     public void actualizarUsuario(@PathVariable int id, @RequestBody DatosAltaUsuario u) {
-        Usuario usuario = usuRep.findById(id);
+        Usuario usuario= usuRep.findById(id);
         usuario.setNombre(u.nombre);
         usuario.setApellidos(u.apellidos);
         usuario.setEmail(u.email);
@@ -109,13 +115,12 @@ public class usuarioController {
     // Eliminar usuario
     @DeleteMapping("/eliminar/{id}")
     public void eliminarUsuario(@PathVariable int id) {
-        Usuario user = usuRep.findById(id);
-        usuRep.delete(user);
+         Usuario user=usuRep.findById(id);
+         usuRep.delete(user);
     }
-
+    
     @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public DTO autenticaUsuario(@RequestBody DatosAutenticaUsuario datos, HttpServletRequest request,
-            HttpServletResponse response) {
+    public DTO autenticaUsuario(@RequestBody DatosAutenticaUsuario datos, HttpServletRequest request, HttpServletResponse response) {
         DTO dto = new DTO();
         dto.put("result", "fail");
         Usuario uAutentificado = usuRep.findByEmailAndPassword(datos.email, datos.password);
@@ -129,7 +134,7 @@ public class usuarioController {
         }
         return dto;
     }
-
+    
     @GetMapping(path = "/quieneres")
     public DTO quienSoy(HttpServletRequest request) {
         DTO dto = new DTO();
@@ -151,7 +156,7 @@ public class usuarioController {
         }
         return dto;
     }
-
+    
     public static class DatosAutenticaUsuario {
         String email;
         String password;
@@ -163,6 +168,7 @@ public class usuarioController {
         }
     }
 
+    
     public static class DatosAltaUsuario {
         String email;
         String password;
@@ -172,20 +178,19 @@ public class usuarioController {
         String pais;
         String aficiones;
         byte admin;
+        public DatosAltaUsuario(String email, String password, String nombre,String apellidos, String sexo, String pais,
+				String aficiones, byte admin) {
+			super();
 
-        public DatosAltaUsuario(String email, String password, String nombre, String apellidos, String sexo,
-                String pais,
-                String aficiones, byte admin) {
-            super();
-
-            this.email = email;
-            this.password = password;
-            this.nombre = nombre;
-            this.apellidos = apellidos;
-            this.sexo = sexo;
-            this.pais = pais;
-            this.aficiones = aficiones;
-            this.admin = admin;
-        }
+			this.email = email;
+			this.password = password;
+			this.nombre = nombre;
+			this.apellidos=apellidos;
+			this.sexo = sexo;
+			this.pais = pais;
+			this.aficiones = aficiones;
+			this.admin = admin;
+		}
     }
 }
+

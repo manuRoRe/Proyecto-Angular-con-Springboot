@@ -21,15 +21,19 @@ public class Curso implements Serializable {
 	@Column(name="id_centro")
 	private int idCentro;
 
+	@Lob
+	private byte[] imagen;
+
 	private String nombre;
 
 	public Curso() {
 	}
-
-	public Curso(String descripcion, String nombre,int idCentro) {
+	
+	public Curso(String descripcion, int idCentro, byte[] imagen, String nombre) {
 		super();
 		this.descripcion = descripcion;
 		this.idCentro = idCentro;
+		this.imagen = imagen;
 		this.nombre = nombre;
 	}
 
@@ -55,6 +59,14 @@ public class Curso implements Serializable {
 
 	public void setIdCentro(int idCentro) {
 		this.idCentro = idCentro;
+	}
+
+	public byte[] getImagen() {
+		return this.imagen;
+	}
+
+	public void setImagen(byte[] imagen) {
+		this.imagen = imagen;
 	}
 
 	public String getNombre() {
