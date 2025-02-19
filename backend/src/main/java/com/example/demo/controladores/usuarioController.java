@@ -3,15 +3,9 @@ package com.example.demo.controladores;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.jwtSecurity.AutenticadorJWT;
 import com.example.demo.modelos.Usuario;
@@ -74,8 +68,27 @@ public class usuarioController {
 
     // Crear usuario
     @PostMapping(path = "/crear")
-    public void aniadirUsuario(@RequestBody DatosAltaUsuario u, HttpServletRequest request) {
-        usuRep.save(new Usuario(u.admin, u.aficiones, u.apellidos, u.email, u.nombre, u.pais, u.password, u.sexo));
+    public DTO aniadirUsuario(@RequestBody DatosAltaUsuario u) {
+        try {
+            DTO dtoUsuaria = new DTO();
+            Usuario nuevoUsuario = new Usuario(
+                    u.admin,
+                    u.aficiones,
+                    u.apellidos,
+                    u.email,
+                    u.nombre,
+                    u.pais,
+                    u.password,
+                    u.sexo);
+            usuRep.save(nuevoUsuario);
+            dtoUsuaria.put("result", "succes");
+            return dtoUsuaria;
+        } catch (Exception e) {
+            DTO dtoUsuaria = new DTO();
+            e.printStackTrace();
+            dtoUsuaria.put("result", "Error al crear el usuario");
+            return dtoUsuaria;
+        }
     }
 
     // Actualizar usuario

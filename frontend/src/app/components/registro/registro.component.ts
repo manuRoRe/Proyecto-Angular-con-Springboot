@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { BDService } from '../../services/bd.service';
 import { DatosAltaUsuario } from '../../interfaces/datosAltaUsuario';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registro',
@@ -28,16 +29,20 @@ import { DatosAltaUsuario } from '../../interfaces/datosAltaUsuario';
 export class RegistroComponent {
   registroForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private registroService: BDService) {
+  constructor(
+    private fb: FormBuilder,
+    private registroService: BDService,
+    private router: Router
+  ) {
     this.registroForm = this.fb.group({
       nombre: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      admin: [false], // Añade cualquier otro campo necesario
-      aficiones: [''],
-      apellidos: [''],
-      pais: [''],
-      sexo: [''],
+      password: ['', [Validators.required, Validators.minLength(4)]],
+      admin: [0],
+      aficiones: ['Natación, Viajes'],
+      apellidos: ['rr'],
+      pais: ['España'],
+      sexo: ['Masculino'],
     });
   }
 
@@ -47,11 +52,11 @@ export class RegistroComponent {
       this.registroService.registrarUsuario(usuario).subscribe({
         next: () => {
           console.log('Usuario registrado exitosamente');
-          // Aquí puedes redirigir al usuario a otra página o mostrar un mensaje
+          this.router.navigate(['/home']);
         },
         error: (err) => {
           console.error('Error al registrar el usuario:', err);
-          // Maneja el error según sea necesario
+          alert('Error al registrar el usuario: ');
         },
       });
     } else {
