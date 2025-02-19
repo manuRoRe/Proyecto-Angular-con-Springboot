@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-02-2025 a las 14:14:56
+-- Tiempo de generación: 19-02-2025 a las 10:02:15
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -35,6 +35,13 @@ CREATE TABLE `centro` (
   `sitio_web` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `centro`
+--
+
+INSERT INTO `centro` (`id`, `direccion`, `imagen`, `nombre`, `sitio_web`) VALUES
+(1, NULL, NULL, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -45,8 +52,16 @@ CREATE TABLE `curso` (
   `id` int(11) NOT NULL,
   `descripcion` varchar(255) DEFAULT NULL,
   `id_centro` int(11) DEFAULT NULL,
-  `nombre` varchar(100) DEFAULT NULL
+  `nombre` varchar(100) DEFAULT NULL,
+  `imagen` longblob DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `curso`
+--
+
+INSERT INTO `curso` (`id`, `descripcion`, `id_centro`, `nombre`, `imagen`) VALUES
+(1, 'Curso de I', 1, 'DAW', 0x8a66a07a78e9);
 
 -- --------------------------------------------------------
 
@@ -78,6 +93,19 @@ CREATE TABLE `usuario` (
   `password` varchar(255) DEFAULT NULL,
   `sexo` enum('Masculino','Femenino','','') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`id`, `admin`, `aficiones`, `apellidos`, `email`, `nombre`, `pais`, `password`, `sexo`) VALUES
+(1, 0, 'Natación, Viajes', 'rr', 'maasssss@example.com', 'Carlos Ramírez', 'España', 'pass123', 'Masculino'),
+(4, 0, 'Natación, Viajes', 'ssss', 'maass@example.com', 'Carlos Ramírez', 'España', 'pass123', 'Masculino'),
+(5, 0, 'Natación, Viajes', 'rr', 'm@gmail.com', 'jjjjjjjjjjjjjjjjj', 'España', '12345678', 'Masculino'),
+(7, 0, 'Natación, Viajes', 'rr', 'ma@gmail.com', 'jjjjjjjjjjjjjjjjjasdasd', 'España', '12345678', 'Masculino'),
+(9, 0, 'Natación, Viajes', 'rr', 'mall@gmail.com', 'jjjjjjjjjjjjjjjjjasdasd', 'España', '12345678', 'Masculino'),
+(11, 0, 'Natación, Viajes', 'rr', 'jan@gmail.com', 'hola', 'España', '12345678', 'Masculino'),
+(13, 0, 'Natación, Viajes', 'rr', 'mak@gmail.com', 'manuek', 'España', '12345679', 'Masculino');
 
 --
 -- Índices para tablas volcadas
@@ -119,13 +147,13 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `centro`
 --
 ALTER TABLE `centro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `curso`
 --
 ALTER TABLE `curso`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `inscripcion`
@@ -137,7 +165,7 @@ ALTER TABLE `inscripcion`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Restricciones para tablas volcadas
