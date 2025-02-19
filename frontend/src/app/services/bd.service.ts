@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Usuario } from '../interfaces/usuario';
 import { Curso } from '../interfaces/curso';
 import { DatosAltaUsuario } from '../interfaces/datosAltaUsuario';
+import { DatosAutenticaUsuario } from '../interfaces/datosAutenticaUsuario';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,20 @@ export class BDService {
 
   registrarUsuario(datos: DatosAltaUsuario): Observable<void> {
     return this.http.post<void>(this.baseURL + '/usuario/crear', datos);
+  }
+
+  login(datosLogin: DatosAutenticaUsuario): Observable<any> {
+    return this.http.post<any>(`${this.baseURL}/usuario/login`, datosLogin);
+  }
+
+  quienSoy(): Observable<any> {
+    return this.http.get<any>(`${this.baseURL}/usuario/quieneres`, {
+      withCredentials: true,
+    });
+  }
+
+  logout() {
+    localStorage.removeItem('jwt');
   }
 
   obtenerCursos(): Observable<Curso[]> {
