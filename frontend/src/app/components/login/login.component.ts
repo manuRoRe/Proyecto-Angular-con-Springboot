@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
         next: (response) => {
           if (response.result === 'Succes') {
             localStorage.setItem('jwt', response.jwt); // Guardar nombre en localStorage
-            this.router.navigate(['/home']); // Redirigir a Home
+            window.location.reload();
           }
         },
         error: (err) => console.error('Error en login:', err),

@@ -36,6 +36,7 @@ export class NavbarComponent implements OnInit {
     // Eliminar usuario de localStorage y recargar la página
     localStorage.removeItem('jwt');
     this.usuario = null; // Restablecer estado del usuario
-    this.router.navigate(['/home']);
+    window.location.reload();
+    //this.router.navigate(['/home']);
   }
 }
