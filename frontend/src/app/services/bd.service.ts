@@ -5,6 +5,7 @@ import { Usuario } from '../interfaces/usuario';
 import { Curso } from '../interfaces/curso';
 import { DatosAltaUsuario } from '../interfaces/datosAltaUsuario';
 import { DatosAutenticaUsuario } from '../interfaces/datosAutenticaUsuario';
+import { Centro } from '../interfaces/centro';
 
 @Injectable({
   providedIn: 'root',
@@ -29,19 +30,10 @@ export class BDService {
       withCredentials: true,
     });
   }
-
   getAuthenticatedUser(): Observable<any> {
     return this.http.get<any>(`${this.baseURL}/usuario/quieneres`, {
       withCredentials: true,
     });
-  }
-
-  saveUserData(user: any): void {
-    localStorage.setItem('user', JSON.stringify(user));
-  }
-
-  getUserData(): any {
-    return JSON.parse(localStorage.getItem('user') || '{}');
   }
 
   logout(): void {
@@ -52,9 +44,7 @@ export class BDService {
     return this.http.get<Curso[]>(this.baseURL + '/curso/obtener');
   }
 
-  //este metodo sirve para registrar un empleado
-
-  //este metodo sirve para actualizar el empleado
-
-  //este metodo sirve para obtener o buscar un empleado
+  obtenerCentros(): Observable<Centro[]> {
+    return this.http.get<Centro[]>(this.baseURL + '/centro/obtener');
+  }
 }

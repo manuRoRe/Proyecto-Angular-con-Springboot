@@ -49,7 +49,7 @@ public class cursoController {
             } else {
                 dtoCurso.put("imagen", null); // Si no hay imagen
             }
-            dtoCurso.put("curso", u.getIdCentro());
+            dtoCurso.put("idCentro", u.getIdCentro());
             listaCursosDTO.add(dtoCurso);
         }
         return listaCursosDTO;

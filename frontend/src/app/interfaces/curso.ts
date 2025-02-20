@@ -4,4 +4,5 @@ export interface Curso {
   sitio_web: String;
   imagen: String;
   descripcion: String;
+  idCentro: number;
 }

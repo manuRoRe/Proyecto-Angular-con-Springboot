@@ -12,9 +12,8 @@
 
         <div class="card-body">
           <h5 class="card-title">{{ curso.nombre }}</h5>
-          <p class="card-text">{{ curso.descripcion }}</p>
+          <p><strong>Centro ID:</strong> {{ curso.idCentro }}</p>
           <form method="POST" action="/inscripcion">
-            <p><strong>Centro ID:</strong> {{ curso.id }}</p>
             <input type="hidden" value="{{ curso.id }}" name="idCurso" />
             <button class="btn btn-primary" type="submit">Inscribirse</button>
           </form>

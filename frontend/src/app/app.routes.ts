@@ -1,6 +1,7 @@
 // src/app/app.routes.ts
 import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
+import { GuestGuard } from './guards/guest.guard';
 
 export const routes: Routes = [
   {
@@ -14,7 +15,7 @@ export const routes: Routes = [
       import('./components/registro/registro.component').then(
         (m) => m.RegistroComponent
       ),
-    canActivate: [AuthGuard],
+    canActivate: [GuestGuard],
   },
   {
     path: 'login',
@@ -22,7 +23,7 @@ export const routes: Routes = [
       import('./components/login/login.component').then(
         (m) => m.LoginComponent
       ),
-    canActivate: [AuthGuard],
+    canActivate: [GuestGuard],
   },
   {
     path: 'inscripcion',
@@ -30,7 +31,7 @@ export const routes: Routes = [
       import('./components/inscripcion/inscripcion.component').then(
         (m) => m.InscripcionComponent
       ),
-    canDeactivate: [AuthGuard],
+    canActivate: [AuthGuard],
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' },

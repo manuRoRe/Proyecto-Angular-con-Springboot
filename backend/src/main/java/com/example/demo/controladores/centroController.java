@@ -1,6 +1,7 @@
 package com.example.demo.controladores;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.controladores.cursoController.DatosAltaCurso;
 import com.example.demo.modelos.Centro;
-import com.example.demo.modelos.Curso;
 import com.example.demo.repositorios.centroRepositorio;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,7 +38,12 @@ public class centroController {
 			dtoI.put("direccion", u.getDireccion());
 			dtoI.put("nombre", u.getNombre());
 			dtoI.put("sitio_web", u.getSitioWeb());
-			dtoI.put("imagen", u.getImagen());
+			if (u.getImagen() != null) {
+				String base64Image = Base64.getEncoder().encodeToString(u.getImagen());
+				dtoI.put("imagen", base64Image);
+			} else {
+				dtoI.put("imagen", null); // Si no hay imagen
+			}
 
 			listaCentrosDTO.add(dtoI);
 		}
@@ -55,7 +59,13 @@ public class centroController {
 			dtoI.put("direccion", centro.getDireccion());
 			dtoI.put("nombre", centro.getNombre());
 			dtoI.put("sitio_web", centro.getSitioWeb());
-			dtoI.put("imagen", centro.getImagen());
+			if (centro.getImagen() != null) {
+				String base64Image = Base64.getEncoder().encodeToString(centro.getImagen());
+				dtoI.put("imagen", base64Image);
+			} else {
+				dtoI.put("imagen", null); // Si no hay imagen
+			}
+
 		} else {
 			dtoI.put("result", false);
 		}
