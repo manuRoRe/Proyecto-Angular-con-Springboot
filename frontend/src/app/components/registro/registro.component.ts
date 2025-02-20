@@ -18,6 +18,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatRadioModule } from '@angular/material/radio';
+import { DatosAutenticaUsuario } from '../../interfaces/datosAutenticaUsuario';
 
 @Component({
   selector: 'app-registro',
@@ -76,10 +77,23 @@ export class RegistroComponent {
         admin: formValue.admin || 0, // Valor predeterminado para admin
       };
 
+      const datosUsuario: DatosAutenticaUsuario = {
+        email: formValue.email,
+        password: formValue.password,
+      };
+
       this.registroService.registrarUsuario(usuario).subscribe({
         next: () => {
           console.log('Usuario registrado exitosamente');
-          this.router.navigate(['/home']);
+          this.registroService.login(datosUsuario).subscribe({
+            next: (response) => {
+              if (response.result === 'Succes') {
+                localStorage.setItem('jwt', response.jwt); // Guardar nombre en localStorage
+                window.location.reload();
+              }
+            },
+            error: (err) => console.error('Error en login:', err),
+          });
         },
         error: (err) => {
           console.error('Error al registrar el usuario:', err);
