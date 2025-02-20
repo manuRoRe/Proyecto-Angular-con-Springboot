@@ -1,6 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
   <div class="container-fluid">
-    <!-- Logo o enlace a la página de inicio -->
     <a class="navbar-brand" routerLink="/home">
       <i class="bi bi-house-door"></i> Inicio
     </a>
@@ -19,7 +18,7 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <div class="ms-auto d-flex align-items-center">
-        <!-- Si el usuario está autenticado, mostrar menú con su nombre -->
+        <!-- Mostrar menú si usuario no es null -->
         <ng-container *ngIf="usuario; else mostrarBotones">
           <div class="dropdown">
             <button
@@ -45,7 +44,7 @@
           </div>
         </ng-container>
 
-        <!-- Si no hay usuario autenticado, mostrar botones de login y registro -->
+        <!-- Mostrar botones de login y registro si usuario es null -->
         <ng-template #mostrarBotones>
           <button class="btn btn-outline-light me-2" routerLink="/login">
             <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
