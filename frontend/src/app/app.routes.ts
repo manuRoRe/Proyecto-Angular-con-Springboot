@@ -24,6 +24,14 @@ export const routes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'inscripcion',
+    loadComponent: () =>
+      import('./components/inscripcion/inscripcion.component').then(
+        (m) => m.InscripcionComponent
+      ),
+    canDeactivate: [AuthGuard],
+  },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' },
 ];
