@@ -25,7 +25,6 @@ import com.example.demo.repositorios.cursoRepositorio;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.xml.bind.DatatypeConverter;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/curso")
 public class cursoController {

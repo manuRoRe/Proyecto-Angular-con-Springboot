@@ -25,17 +25,27 @@ export class BDService {
   }
 
   login(datosLogin: DatosAutenticaUsuario): Observable<any> {
-    return this.http.post<any>(`${this.baseURL}/usuario/login`, datosLogin);
+    return this.http.post<any>(`${this.baseURL}/usuario/login`, datosLogin, {
+      withCredentials: true,
+    });
   }
 
-  quienSoy(): Observable<any> {
+  getAuthenticatedUser(): Observable<any> {
     return this.http.get<any>(`${this.baseURL}/usuario/quieneres`, {
       withCredentials: true,
     });
   }
 
-  logout() {
-    localStorage.removeItem('jwt');
+  saveUserData(user: any): void {
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+
+  getUserData(): any {
+    return JSON.parse(localStorage.getItem('user') || '{}');
+  }
+
+  logout(): void {
+    localStorage.removeItem('user');
   }
 
   obtenerCursos(): Observable<Curso[]> {

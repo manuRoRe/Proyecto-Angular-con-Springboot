@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
       this.authService.login(datosUsuario).subscribe({
         next: (response) => {
           if (response.result === 'Succes') {
-            localStorage.setItem('usuario', response.nombre); // Guardar nombre en localStorage
+            localStorage.setItem('jwt', response.jwt); // Guardar nombre en localStorage
             this.router.navigate(['/home']); // Redirigir a Home
           }
         },

@@ -26,7 +26,6 @@ import com.example.demo.repositorios.usuarioRepositorio;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/inscripcion")
 public class inscripcionController {
@@ -59,7 +58,7 @@ public class inscripcionController {
 	@GetMapping(path = "/obtener/{id}")
 	public DTO getInscripcion(@PathVariable int id) {
 		DTO dtoI = new DTO();
-		Inscripcion u=insRep.findById(id);	
+		Inscripcion u = insRep.findById(id);
 		dtoI.put("id", u.getId());
 		dtoI.put("fecha_inscripcion", u.getFechaInscripcion().toString());
 		dtoI.put("id_curso", u.getCurso().getId());
