@@ -6,7 +6,9 @@
   <div class="navbar-right">
     <!-- Si el usuario está autenticado, mostrar menú con su nombre -->
     <ng-container *ngIf="usuario; else mostrarBotones">
-      <button mat-button [matMenuTriggerFor]="menu">{{ usuario }}</button>
+      <button mat-button [matMenuTriggerFor]="menu">
+        {{ usuario.nombre }}
+      </button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item routerLink="/mi-cuenta">Mi cuenta</button>
         <button mat-menu-item (click)="cerrarSesion()">Cerrar sesión</button>

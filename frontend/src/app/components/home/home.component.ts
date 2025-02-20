@@ -18,15 +18,21 @@ export class HomeComponent implements OnInit {
   constructor(private authService: BDService) {}
 
   ngOnInit(): void {
-    this.authService.getAuthenticatedUser().subscribe(
-      (data) => {
-        if (data.result === 'success') {
-          this.usuario = data;
-        }
-      },
-      (error) => {
-        console.error('Error obteniendo usuario', error);
+    if (typeof window !== 'undefined') {
+      // Verifica si el jwt existe en localStorage
+      const jwt = localStorage.getItem('jwt');
+      if (jwt) {
+        this.authService.getAuthenticatedUser().subscribe(
+          (data) => {
+            if (data.result === 'success') {
+              this.usuario = data;
+            }
+          },
+          (error) => {
+            console.error('Error obteniendo usuario', error);
+          }
+        );
       }
-    );
+    }
   }
 }
