@@ -1,9 +1,10 @@
 .registro-container {
   color: white;
+  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100vh; /* Centra verticalmente */
   background-color: rgb(104, 104, 85);
 }
 

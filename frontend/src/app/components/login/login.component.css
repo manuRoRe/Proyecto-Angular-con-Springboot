@@ -1,19 +1,21 @@
-.registro-container {
+.login-container {
   color: white;
+  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100vh; /* Centra verticalmente */
   background-color: rgb(104, 104, 85);
 }
+
 
 #btSubmit{
   background-color: beige;
   color: black;
 }
 
-.registro-card {
-  width: 500px;
+.login-card {
+  width: 400px;
   padding: 20px;
   background-color: rgb(70, 58, 44);
 }
