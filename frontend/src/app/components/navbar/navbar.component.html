@@ -1,26 +1,60 @@
-<nav class="navbar">
-  <div class="navbar-left">
-    <a routerLink="/home">🏠 Inicio</a>
-  </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+  <div class="container-fluid">
+    <!-- Logo o enlace a la página de inicio -->
+    <a class="navbar-brand" routerLink="/home">
+      <i class="bi bi-house-door"></i> Inicio
+    </a>
 
-  <div class="navbar-right">
-    <!-- Si el usuario está autenticado, mostrar menú con su nombre -->
-    <ng-container *ngIf="usuario; else mostrarBotones">
-      <button mat-button [matMenuTriggerFor]="menu">
-        {{ usuario.nombre }}
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item routerLink="/mi-cuenta">Mi cuenta</button>
-        <button mat-menu-item (click)="cerrarSesion()">Cerrar sesión</button>
-      </mat-menu>
-    </ng-container>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-    <!-- Si no hay usuario autenticado, mostrar botones de login y registro -->
-    <ng-template #mostrarBotones>
-      <button mat-button routerLink="/login">Iniciar sesión</button>
-      <button mat-raised-button color="primary" routerLink="/registro">
-        Registrarse
-      </button>
-    </ng-template>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="ms-auto d-flex align-items-center">
+        <!-- Si el usuario está autenticado, mostrar menú con su nombre -->
+        <ng-container *ngIf="usuario; else mostrarBotones">
+          <div class="dropdown">
+            <button
+              class="btn btn-outline-light dropdown-toggle"
+              id="navbarDropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="bi bi-person-circle"></i> {{ usuario.nombre }}
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li>
+                <a class="dropdown-item" routerLink="/mi-cuenta"
+                  ><i class="bi bi-person"></i> Mi cuenta</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" (click)="cerrarSesion()"
+                  ><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a
+                >
+              </li>
+            </ul>
+          </div>
+        </ng-container>
+
+        <!-- Si no hay usuario autenticado, mostrar botones de login y registro -->
+        <ng-template #mostrarBotones>
+          <button class="btn btn-outline-light me-2" routerLink="/login">
+            <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
+          </button>
+          <button class="btn btn-light" routerLink="/registro">
+            <i class="bi bi-person-plus"></i> Registrarse
+          </button>
+        </ng-template>
+      </div>
+    </div>
   </div>
 </nav>
