@@ -12,7 +12,11 @@
 
         <div class="card-body">
           <h5 class="card-title">{{ curso.nombre }}</h5>
-          <p><strong>Centro ID:</strong> {{ curso.idCentro }}</p>
+          <div *ngFor="let centro of centros">
+            <p *ngIf="centro.id === curso.idCentro">
+              <strong>Centro:</strong> {{ centro.nombre }}
+            </p>
+          </div>
           <form method="POST" action="/inscripcion">
             <input type="hidden" value="{{ curso.id }}" name="idCurso" />
             <button class="btn btn-primary" type="submit">Inscribirse</button>

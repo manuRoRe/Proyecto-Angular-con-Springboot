@@ -3,6 +3,6 @@ export interface Curso {
   nombre: String;
   sitio_web: String;
   imagen: String;
-  descripcion: String;
+  direccion: String;
   idCentro: number;
 }
