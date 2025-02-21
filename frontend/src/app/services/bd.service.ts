@@ -6,6 +6,7 @@ import { Curso } from '../interfaces/curso';
 import { DatosAltaUsuario } from '../interfaces/datosAltaUsuario';
 import { DatosAutenticaUsuario } from '../interfaces/datosAutenticaUsuario';
 import { Centro } from '../interfaces/centro';
+import { DatosAltaInscripcion } from '../interfaces/datosAltaInscripcion';
 
 @Injectable({
   providedIn: 'root',
@@ -51,7 +52,12 @@ export class BDService {
   obtenerCentros(): Observable<Centro[]> {
     return this.http.get<Centro[]>(this.baseURL + '/centro/obtener');
   }
+
   getCentroById(id: number): Observable<any> {
     return this.http.get<any>(`${this.baseURL}/centro/obtener/${id}`);
+  }
+
+  inscribirseCurso(datos: DatosAltaInscripcion): Observable<void> {
+    return this.http.post<void>(this.baseURL + '/inscripcion/crear', datos);
   }
 }

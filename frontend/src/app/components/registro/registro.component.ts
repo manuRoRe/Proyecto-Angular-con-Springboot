@@ -19,6 +19,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatRadioModule } from '@angular/material/radio';
 import { DatosAutenticaUsuario } from '../../interfaces/datosAutenticaUsuario';
+import { DatosAltaInscripcion } from '../../interfaces/datosAltaInscripcion';
 
 @Component({
   selector: 'app-registro',

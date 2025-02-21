@@ -19,7 +19,11 @@
 
     <!-- Botón centrado -->
     <div class="col-md-2 d-flex justify-content-center">
-      <button class="btn btn-primary">Inscribirse</button>
+      <form (ngSubmit)="onSubmit()" action="/home">
+        <button type="submit" class="btn btn-primary" id="btSubmit">
+          Inscribirse
+        </button>
+      </form>
     </div>
 
     <!-- Columna del centro -->

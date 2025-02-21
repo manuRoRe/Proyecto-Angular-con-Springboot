@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Curso } from '../../interfaces/curso';
 import { Centro } from '../../interfaces/centro';
+import { DatosAltaInscripcion } from '../../interfaces/datosAltaInscripcion';
 
 @Component({
   selector: 'app-inscripcion',
@@ -26,6 +27,7 @@ export class InscripcionComponent implements OnInit {
     sitio_web: '',
     imagen: '',
   };
+  usuario: any = {};
   idCurso: number | null = null;
 
   constructor(private route: ActivatedRoute, private cursoService: BDService) {}
@@ -61,7 +63,32 @@ export class InscripcionComponent implements OnInit {
         },
         (error) => console.error('Error al obtener el curso:', error)
       );
+      const jwt = localStorage.getItem('jwt');
+      if (jwt) {
+        this.cursoService.getAuthenticatedUser().subscribe(
+          (data) => {
+            if (data.result === 'success') {
+              this.usuario = data;
+            }
+          },
+          (error) => {
+            console.error('Error obteniendo usuario', error);
+          }
+        );
+      }
     }
+  }
+
+  onSubmit(): void {
+    const datos: DatosAltaInscripcion = {
+      idCurso: this.curso.id,
+      idUsuario: this.usuario.id,
+      fechaInscripcion: new Date(),
+    };
+    this.cursoService.inscribirseCurso(datos).subscribe(
+      (data) => console.log(data),
+      (error) => console.error('Error al inscribirse al curso', error)
+    );
   }
 
   obtenerCurso(): void {
