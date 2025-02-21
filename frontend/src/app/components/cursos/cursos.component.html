@@ -17,7 +17,7 @@
               <strong>Centro:</strong> {{ centro.nombre }}
             </p>
           </div>
-          <form method="POST" action="/inscripcion">
+          <form method="GET" action="/inscripcion">
             <input type="hidden" value="{{ curso.id }}" name="idCurso" />
             <button class="btn btn-primary" type="submit">Inscribirse</button>
           </form>

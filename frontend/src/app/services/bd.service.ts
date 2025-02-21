@@ -44,7 +44,14 @@ export class BDService {
     return this.http.get<Curso[]>(this.baseURL + '/curso/obtener');
   }
 
+  getCursoById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.baseURL}/curso/obtener/${id}`);
+  }
+
   obtenerCentros(): Observable<Centro[]> {
     return this.http.get<Centro[]>(this.baseURL + '/centro/obtener');
+  }
+  getCentroById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.baseURL}/centro/obtener/${id}`);
   }
 }

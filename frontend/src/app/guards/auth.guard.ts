@@ -11,7 +11,8 @@ export class AuthGuard implements CanActivate {
     if (typeof window !== 'undefined' && localStorage.getItem('jwt')) {
       return true; // Permite el acceso si está autenticado
     }
-    this.router.navigate(['/home']);
+    this.router.navigate(['/login']);
+    alert('Debes Iniciar Sesion');
     return false;
   }
 }

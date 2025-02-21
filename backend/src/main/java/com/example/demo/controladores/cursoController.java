@@ -62,8 +62,13 @@ public class cursoController {
         dtoCurso.put("id", u.getId());
         dtoCurso.put("nombre", u.getNombre());
         dtoCurso.put("descripcion", u.getDescripcion());
-        dtoCurso.put("imagen", u.getImagen());
-        dtoCurso.put("curso", u.getIdCentro());
+        if (u.getImagen() != null) {
+            String base64Image = Base64.getEncoder().encodeToString(u.getImagen());
+            dtoCurso.put("imagen", base64Image);
+        } else {
+            dtoCurso.put("imagen", null); // Si no hay imagen
+        }
+        dtoCurso.put("idCentro", u.getIdCentro());
         return dtoCurso;
     }
 
