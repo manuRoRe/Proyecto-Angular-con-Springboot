@@ -1,5 +1,5 @@
 export interface DatosAltaInscripcion {
-  idCurso: number;
-  idUsuario: number;
-  fechaInscripcion: Date;
+  id_curso: number;
+  id_usuario: number;
+  fecha_inscripcion: Date;
 }

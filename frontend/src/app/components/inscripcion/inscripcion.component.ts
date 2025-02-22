@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BDService } from '../../services/bd.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Curso } from '../../interfaces/curso';
-import { Centro } from '../../interfaces/centro';
 import { DatosAltaInscripcion } from '../../interfaces/datosAltaInscripcion';
 
 @Component({
@@ -13,62 +11,66 @@ import { DatosAltaInscripcion } from '../../interfaces/datosAltaInscripcion';
   styleUrl: './inscripcion.component.css',
 })
 export class InscripcionComponent implements OnInit {
-  curso: Curso = {
-    id: 0,
-    nombre: '',
-    descripcion: '',
-    imagen: '',
-    idCentro: 0,
-  };
-  centro: Centro = {
-    id: 0,
-    nombre: '',
-    direccion: '',
-    sitio_web: '',
-    imagen: '',
-  };
+  curso: any = {};
+  centro: any = {};
+  mensaje: string = '';
   usuario: any = {};
   idCurso: number | null = null;
 
-  constructor(private route: ActivatedRoute, private cursoService: BDService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private cursoService: BDService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.idCurso = Number(params['idCurso']);
       console.log('ID del curso recibido:', this.idCurso);
+
+      if (this.idCurso) {
+        this.cargarCurso();
+        this.cargarUsuario();
+      }
     });
-    if (this.idCurso) {
-      this.cursoService.getCursoById(this.idCurso).subscribe(
-        (data) => {
-          console.log('Curso recibido'); // 🔍 Verifica si el backend devuelve el curso
-          this.curso = data;
-          this.curso = {
-            ...data, // Suponiendo que `data` es el curso recibido
-            imagen: data.imagen.startsWith('data:image')
-              ? data.imagen
-              : `data:image/jpeg;base64,${data.imagen}`,
-          };
-          this.cursoService
-            .getCentroById(this.curso.idCentro)
-            .subscribe((data) => {
-              console.log('Centro recibido'); // 🔍 Verifica si el backend devuelve el centro
-              this.centro = data;
-              this.centro = {
-                ...data, // Suponiendo que `data` es el curso recibido
-                imagen: data.imagen.startsWith('data:image')
-                  ? data.imagen
-                  : `data:image/jpeg;base64,${data.imagen}`,
-              };
-            });
-        },
-        (error) => console.error('Error al obtener el curso:', error)
-      );
+  }
+
+  cargarCurso(): void {
+    this.cursoService.getCursoById(this.idCurso!).subscribe(
+      (data) => {
+        console.log('Curso recibido', data);
+        this.curso = {
+          ...data,
+          imagen: data.imagen.startsWith('data:image')
+            ? data.imagen
+            : `data:image/jpeg;base64,${data.imagen}`,
+        };
+        this.cursoService
+          .getCentroById(this.curso.idCentro)
+          .subscribe((data) => {
+            console.log('Centro recibido', data);
+            this.centro = {
+              ...data,
+              imagen: data.imagen.startsWith('data:image')
+                ? data.imagen
+                : `data:image/jpeg;base64,${data.imagen}`,
+            };
+          });
+      },
+      (error) => console.error('Error al obtener el curso:', error)
+    );
+  }
+
+  cargarUsuario(): void {
+    if (typeof window !== 'undefined') {
+      // Verifica si el jwt existe en localStorage
       const jwt = localStorage.getItem('jwt');
       if (jwt) {
         this.cursoService.getAuthenticatedUser().subscribe(
           (data) => {
             if (data.result === 'success') {
               this.usuario = data;
+              console.log(this.usuario);
             }
           },
           (error) => {
@@ -79,24 +81,27 @@ export class InscripcionComponent implements OnInit {
     }
   }
 
-  onSubmit(): void {
+  inscribirse(event: Event) {
+    event.preventDefault(); // Evita cualquier comportamiento por defecto
+    const fecha = new Date();
     const datos: DatosAltaInscripcion = {
-      idCurso: this.curso.id,
-      idUsuario: this.usuario.id,
-      fechaInscripcion: new Date(),
+      id_curso: this.curso.id,
+      id_usuario: this.usuario.id,
+      fecha_inscripcion: new Date(),
     };
-    this.cursoService.inscribirseCurso(datos).subscribe(
-      (data) => console.log(data),
-      (error) => console.error('Error al inscribirse al curso', error)
-    );
-  }
 
-  obtenerCurso(): void {
-    if (this.idCurso) {
-      this.cursoService.getCursoById(this.idCurso).subscribe(
-        (data) => (this.curso = data),
-        (error) => console.error('Error al obtener el curso', error)
-      );
-    }
+    console.log('Datos enviados a la API:', datos); // Verifica en la consola del navegador
+
+    this.cursoService.crearInscripcion(datos).subscribe({
+      next: (respuesta) => {
+        console.log('Respuesta del servidor:', respuesta);
+        this.mensaje = respuesta.result;
+        this.router.navigate(['/home']);
+      },
+      error: (error) => {
+        console.error('Error al inscribir:', error);
+        this.mensaje = error.error?.result || 'Error al inscribir';
+      },
+    });
   }
 }

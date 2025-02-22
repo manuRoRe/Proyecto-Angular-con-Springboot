@@ -21,8 +21,6 @@ import com.example.demo.repositorios.cursoRepositorio;
 import com.example.demo.repositorios.inscripcionRepositorio;
 import com.example.demo.repositorios.usuarioRepositorio;
 
-import jakarta.servlet.http.HttpServletRequest;
-
 @RestController
 @RequestMapping("/inscripcion")
 public class inscripcionController {
@@ -96,17 +94,19 @@ public class inscripcionController {
 	}
 
 	@PostMapping(path = "/crear")
-	public void aniadirInscripcion(@RequestBody DatosAltaInscripcion i, HttpServletRequest request) {
+	public DTO aniadirInscripcion(@RequestBody DatosAltaInscripcion i) {
 		DTO dtoUsuaria = new DTO();
 		Usuario u = usuRep.findById(i.id_usuario);
 		Curso c = curRep.findById(i.id_curso);
+
 		if (u != null && c != null) {
 			insRep.save(new Inscripcion(i.fecha_inscripcion, c, u));
-			dtoUsuaria.put("result", "succes");
+			dtoUsuaria.put("result", "success");
+			return dtoUsuaria;
 		} else {
 			dtoUsuaria.put("result", "No existe ese Usuario o Curso");
+			return dtoUsuaria;
 		}
-		insRep.save(new Inscripcion(i.fecha_inscripcion, c, u));
 	}
 
 	@PutMapping("/actualizar/{id}")

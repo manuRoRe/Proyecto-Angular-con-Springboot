@@ -57,7 +57,7 @@ export class BDService {
     return this.http.get<any>(`${this.baseURL}/centro/obtener/${id}`);
   }
 
-  inscribirseCurso(datos: DatosAltaInscripcion): Observable<void> {
-    return this.http.post<void>(this.baseURL + '/inscripcion/crear', datos);
+  crearInscripcion(datos: any): Observable<any> {
+    return this.http.post<any>(`${this.baseURL}/inscripcion/crear`, datos);
   }
 }
