@@ -21,11 +21,20 @@
     <div class="col-md-2 d-flex justify-content-center">
       <form>
         <button
+          *ngIf="!verificarInscripcion()"
           type="button"
           class="btn btn-primary"
           (click)="inscribirse($event)"
         >
           Inscribirse
+        </button>
+        <button
+          *ngIf="verificarInscripcion()"
+          class="btn btn-secondary"
+          type="button"
+          disabled
+        >
+          YA INSCRITO
         </button>
       </form>
     </div>
