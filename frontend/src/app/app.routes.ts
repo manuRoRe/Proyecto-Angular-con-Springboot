@@ -42,6 +42,14 @@ export const routes: Routes = [
       ),
     canActivate: [AdminGuard],
   },
+  {
+    path: 'editar-usuario/:id',
+    loadComponent: () =>
+      import(
+        './components/editar-insertar-usuario/editar-insertar-usuario.component'
+      ).then((m) => m.EditarInsertarUsuarioComponent),
+    canActivate: [AdminGuard],
+  },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' },
 ];

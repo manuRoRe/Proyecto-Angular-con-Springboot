@@ -57,8 +57,8 @@ public class usuarioController {
         dtoUsuaria.put("password", u.getPassword());
         dtoUsuaria.put("pais", u.getPais());
         dtoUsuaria.put("sexo", u.getSexo());
-        dtoUsuaria.put("Admin", u.getAdmin());
-        dtoUsuaria.put("Aficiones", u.getAficiones());
+        dtoUsuaria.put("admin", u.getAdmin());
+        dtoUsuaria.put("aficiones", u.getAficiones());
         return dtoUsuaria;
 
     }

@@ -27,6 +27,14 @@ export class BDService {
     return this.http.post<void>(this.baseURL + '/usuario/crear', datos);
   }
 
+  getUsuarioById(id: number): Observable<Usuario> {
+    return this.http.get<Usuario>(`${this.baseURL}/usuario/obtener/${id}`);
+  }
+
+  actualizarUsuario(id: number, usuario: DatosAltaUsuario): Observable<any> {
+    return this.http.put(`${this.baseURL}/usuario/actualizar/${id}`, usuario);
+  }
+
   login(datosLogin: DatosAutenticaUsuario): Observable<any> {
     return this.http.post<any>(`${this.baseURL}/usuario/login`, datosLogin, {
       withCredentials: true,
