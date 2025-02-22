@@ -7,6 +7,7 @@ import { DatosAltaUsuario } from '../interfaces/datosAltaUsuario';
 import { DatosAutenticaUsuario } from '../interfaces/datosAutenticaUsuario';
 import { Centro } from '../interfaces/centro';
 import { DatosAltaInscripcion } from '../interfaces/datosAltaInscripcion';
+import { Inscripcion } from '../interfaces/inscripcion';
 
 @Injectable({
   providedIn: 'root',
@@ -59,5 +60,9 @@ export class BDService {
 
   crearInscripcion(datos: any): Observable<any> {
     return this.http.post<any>(`${this.baseURL}/inscripcion/crear`, datos);
+  }
+
+  getInscripcionesPorUsuario(id: number): Observable<Inscripcion[]> {
+    return this.http.get<any[]>(`${this.baseURL}/inscripcion/usuario/${id}`);
   }
 }

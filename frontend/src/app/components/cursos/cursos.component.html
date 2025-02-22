@@ -17,9 +17,26 @@
               <strong>Centro:</strong> {{ centro.nombre }}
             </p>
           </div>
+
+          <!-- Verifica si el usuario ya está inscrito en el curso -->
           <form method="GET" action="/inscripcion">
             <input type="hidden" value="{{ curso.id }}" name="idCurso" />
-            <button class="btn btn-primary" type="submit">Inscribirse</button>
+
+            <!-- Si ya está inscrito, muestra el botón "YA INSCRITO" y lo desactiva -->
+            <button
+              *ngIf="!verificarInscripcion(curso.id)"
+              class="btn btn-primary"
+              type="submit"
+            >
+              Inscribirse
+            </button>
+            <button
+              *ngIf="verificarInscripcion(curso.id)"
+              class="btn btn-secondary"
+              type="submit"
+            >
+              YA INSCRITO
+            </button>
           </form>
         </div>
       </div>
