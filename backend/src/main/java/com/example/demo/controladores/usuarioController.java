@@ -4,7 +4,6 @@ import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 
 import com.example.demo.jwtSecurity.AutenticadorJWT;
 import com.example.demo.modelos.Usuario;
@@ -14,7 +13,6 @@ import com.example.demo.repositorios.usuarioRepositorio;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.xml.bind.DatatypeConverter;
 
 import org.springframework.web.bind.annotation.*;
 
