@@ -97,13 +97,23 @@
       />
       <label class="form-check-label" for="admin">Es Administrador</label>
     </div>
-
-    <button
-      type="submit"
-      class="btn btn-primary"
-      [disabled]="!usuarioForm.valid"
-    >
-      Actualizar
-    </button>
+    <div *ngIf="insertar()">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!usuarioForm.valid"
+      >
+        Insertar
+      </button>
+    </div>
+    <div *ngIf="!insertar()">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!usuarioForm.valid"
+      >
+        Actualizar
+      </button>
+    </div>
   </form>
 </div>

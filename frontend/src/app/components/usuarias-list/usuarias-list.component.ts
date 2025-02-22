@@ -65,19 +65,21 @@ export class UsuariasListComponent implements OnInit {
     this.router.navigate([`/editar-usuario/${usuario.id}`]);
   }
 
+  insertarUsuario(): void {
+    this.router.navigate([`/editar-usuario/0`]);
+  }
+
   borrarUsuario(usuario: Usuario): void {
-    /*
-    if (confirm(`¿Estás seguro de que quieres eliminar a ${usuario.nombre}?`)) {
-      this.usuariaService.borrarUsuario(usuario.id).subscribe({
-        next: () => {
-          this.usuarios = this.usuarios.filter((u) => u.id !== usuario.id); // Eliminar de la lista local
-          this.dataSource.data = this.usuarios; // Actualizar la tabla
-          console.log('Usuario eliminado:', usuario);
-        },
-        error: (error) => {
-          console.error('Error al eliminar usuario:', error);
-        },
-      });
-    }*/
+    this.usuariaService.borrarUsuario(usuario.id).subscribe({
+      next: () => {
+        this.usuarios = this.usuarios.filter((u) => u.id !== usuario.id); // Eliminar de la lista local
+        this.dataSource.data = this.usuarios; // Actualizar la tabla
+        console.log('Usuario eliminado:', usuario);
+        alert('Usuario eliminado');
+      },
+      error: (error) => {
+        console.error('Error al eliminar usuario:', error);
+      },
+    });
   }
 }

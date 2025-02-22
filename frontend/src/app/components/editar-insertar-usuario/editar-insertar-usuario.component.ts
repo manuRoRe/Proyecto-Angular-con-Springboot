@@ -6,7 +6,7 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { BDService } from '../../services/bd.service'; // Asegúrate de que BDService tenga los métodos para obtener y actualizar el usuario
+import { BDService } from '../../services/bd.service';
 import { Usuario } from '../../interfaces/usuario';
 import { CommonModule } from '@angular/common';
 
@@ -47,37 +47,40 @@ export class EditarInsertarUsuarioComponent implements OnInit {
   }
 
   cargarUsuario(): void {
-    this.bdService.getUsuarioById(this.us).subscribe({
-      next: (user: Usuario) => {
-        console.log('Usuario recibido:', user);
+    // Si el id es 0, no cargamos usuario, ya que vamos a registrar uno nuevo
+    if (this.us !== 0) {
+      this.bdService.getUsuarioById(this.us).subscribe({
+        next: (user: Usuario) => {
+          console.log('Usuario recibido:', user);
 
-        // Asegurar que 'aficiones' sea un array
-        console.log('Aficiones recibidas del usuario:', user.aficiones);
+          // Asegurar que 'aficiones' sea un array
+          console.log('Aficiones recibidas del usuario:', user.aficiones);
 
-        const aficionesArray = user.aficiones
-          ? typeof user.aficiones === 'string'
-            ? user.aficiones.split(',')
-            : user.aficiones
-          : [];
+          const aficionesArray = user.aficiones
+            ? typeof user.aficiones === 'string'
+              ? user.aficiones.split(',')
+              : user.aficiones
+            : [];
 
-        console.log('Aficiones convertidas a array:', aficionesArray);
+          console.log('Aficiones convertidas a array:', aficionesArray);
 
-        this.usuarioForm.setValue({
-          nombre: user.nombre,
-          apellidos: user.apellidos,
-          email: user.email,
-          sexo: user.sexo,
-          pais: user.pais,
-          aficiones: aficionesArray, // Aquí nos aseguramos de que sea un array
-          password: user.password,
-          admin: user.admin,
-        });
-      },
-      error: (err) => {
-        console.error('Error al cargar usuario:', err);
-        alert('Error al cargar los datos del usuario');
-      },
-    });
+          this.usuarioForm.setValue({
+            nombre: user.nombre,
+            apellidos: user.apellidos,
+            email: user.email,
+            sexo: user.sexo,
+            pais: user.pais,
+            aficiones: aficionesArray, // Aquí nos aseguramos de que sea un array
+            password: user.password,
+            admin: user.admin,
+          });
+        },
+        error: (err) => {
+          console.error('Error al cargar usuario:', err);
+          alert('Error al cargar los datos del usuario');
+        },
+      });
+    }
   }
 
   onSubmit(): void {
@@ -85,21 +88,35 @@ export class EditarInsertarUsuarioComponent implements OnInit {
       console.log('Datos enviados:', this.usuarioForm.value);
 
       // Convertimos el array de aficiones en un string separado por comas
-      const usuarioActualizado = {
+      const usuarioFormValue = {
         ...this.usuarioForm.value,
         aficiones: this.usuarioForm.value.aficiones.join(','), // Convertir array a string
         admin: this.usuarioForm.value.admin ? 1 : 0, // Convertir boolean a 0/1
       };
 
-      this.bdService.actualizarUsuario(this.us, usuarioActualizado).subscribe({
-        next: () => {
-          this.router.navigate(['/backup']);
-        },
-        error: (err) => {
-          console.error('Error al actualizar usuario:', err);
-          alert('Error al actualizar el usuario');
-        },
-      });
+      if (this.us === 0) {
+        // Llamar al servicio para registrar un nuevo usuario
+        this.bdService.registrarUsuario(usuarioFormValue).subscribe({
+          next: () => {
+            this.router.navigate(['/backup']); // Redirigir a la página de lista o a donde necesites
+          },
+          error: (err) => {
+            console.error('Error al registrar usuario:', err);
+            alert('Error al registrar el usuario');
+          },
+        });
+      } else {
+        // Llamar al servicio para actualizar el usuario
+        this.bdService.actualizarUsuario(this.us, usuarioFormValue).subscribe({
+          next: () => {
+            this.router.navigate(['/backup']); // Redirigir a la página de lista o a donde necesites
+          },
+          error: (err) => {
+            console.error('Error al actualizar usuario:', err);
+            alert('Error al actualizar el usuario');
+          },
+        });
+      }
     }
   }
 
@@ -116,5 +133,11 @@ export class EditarInsertarUsuarioComponent implements OnInit {
     }
 
     this.usuarioForm.patchValue({ aficiones: aficionesSeleccionadas });
+  }
+
+  insertar() {
+    if (this.us === 0) {
+      return true;
+    } else return false;
   }
 }

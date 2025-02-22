@@ -35,6 +35,10 @@ export class BDService {
     return this.http.put(`${this.baseURL}/usuario/actualizar/${id}`, usuario);
   }
 
+  borrarUsuario(id: number): Observable<any> {
+    return this.http.delete(`${this.baseURL}/usuario/eliminar/${id}`);
+  }
+
   login(datosLogin: DatosAutenticaUsuario): Observable<any> {
     return this.http.post<any>(`${this.baseURL}/usuario/login`, datosLogin, {
       withCredentials: true,
