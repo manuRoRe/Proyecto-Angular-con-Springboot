@@ -156,6 +156,7 @@ public class usuarioController {
             dto.put("id", u.getId());
             dto.put("nombre", u.getNombre());
             dto.put("username", u.getEmail());
+            dto.put("admin", u.getAdmin());
         }
         return dto;
     }

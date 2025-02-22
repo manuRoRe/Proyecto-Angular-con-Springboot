@@ -10,6 +10,7 @@ import { BDService } from '../../services/bd.service';
 })
 export class NavbarComponent implements OnInit {
   usuario: any = null; // Inicializa como null
+  esAdmin: boolean = false;
 
   constructor(private router: Router, private authService: BDService) {}
 
@@ -22,6 +23,7 @@ export class NavbarComponent implements OnInit {
           (data) => {
             if (data.result === 'success') {
               this.usuario = data; // Establecer usuario si autenticado
+              this.esAdmin = this.usuario.admin;
             }
           },
           (error) => {

@@ -1,9 +1,11 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
   <div class="container-fluid">
+    <!-- Logo y enlace de inicio -->
     <a class="navbar-brand" routerLink="/home">
       <i class="bi bi-house-door"></i> Inicio
     </a>
 
+    <!-- Botón para colapsar en pantallas pequeñas -->
     <button
       class="navbar-toggler"
       type="button"
@@ -16,13 +18,19 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
+    <!-- Menú de navegación colapsado en pantallas pequeñas -->
     <div class="collapse navbar-collapse" id="navbarNav">
-      <div class="ms-auto d-flex align-items-center">
-        <!-- Mostrar menú si usuario no es null -->
+      <ul class="navbar-nav ms-auto d-flex align-items-center">
+        <!-- Mostrar menú si usuario está autenticado -->
         <ng-container *ngIf="usuario; else mostrarBotones">
-          <div class="dropdown">
+          <div *ngIf="esAdmin" class="me-3">
+            <button class="btn btn-outline-light" routerLink="/backup">
+              <i class="bi bi-gear"></i> Backup
+            </button>
+          </div>
+          <li class="nav-item dropdown">
             <button
-              class="btn btn-outline-light dropdown-toggle"
+              class="btn btn-outline-light dropdown-toggle me-3"
               id="navbarDropdown"
               data-bs-toggle="dropdown"
               aria-expanded="false"
@@ -31,29 +39,35 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li>
-                <a class="dropdown-item" routerLink="/mi-cuenta"
-                  ><i class="bi bi-person"></i> Mi cuenta</a
-                >
+                <a class="dropdown-item" routerLink="/mi-cuenta">
+                  <i class="bi bi-person"></i> Mi cuenta
+                </a>
               </li>
               <li>
-                <a class="dropdown-item" (click)="cerrarSesion()"
-                  ><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a
-                >
+                <a class="dropdown-item" (click)="cerrarSesion()">
+                  <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+                </a>
               </li>
             </ul>
-          </div>
+          </li>
         </ng-container>
 
-        <!-- Mostrar botones de login y registro si usuario es null -->
+        <!-- Botones de login y registro si usuario no está autenticado -->
         <ng-template #mostrarBotones>
-          <button class="btn btn-outline-light me-2" routerLink="/login">
-            <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
-          </button>
-          <button class="btn btn-light" routerLink="/registro">
-            <i class="bi bi-person-plus"></i> Registrarse
-          </button>
+          <li class="nav-item">
+            <button class="btn btn-outline-light me-2" routerLink="/login">
+              <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-light" routerLink="/registro">
+              <i class="bi bi-person-plus"></i> Registrarse
+            </button>
+          </li>
         </ng-template>
-      </div>
+      </ul>
     </div>
+
+    <!-- Botón de administración visible solo para administradores -->
   </div>
 </nav>
