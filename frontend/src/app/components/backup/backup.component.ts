@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
+import { UsuariasListComponent } from '../usuarias-list/usuarias-list.component';
+
 @Component({
   selector: 'app-backup',
-  imports: [],
+  imports: [UsuariasListComponent],
   templateUrl: './backup.component.html',
-  styleUrl: './backup.component.css'
+  styleUrl: './backup.component.css',
 })
-export class BackupComponent {
-
-}
+export class BackupComponent {}

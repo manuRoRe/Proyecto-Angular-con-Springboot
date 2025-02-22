@@ -2,6 +2,7 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { GuestGuard } from './guards/guest.guard';
+import { AdminGuard } from './guards/is-admin.guard';
 
 export const routes: Routes = [
   {
@@ -32,6 +33,14 @@ export const routes: Routes = [
         (m) => m.InscripcionComponent
       ),
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'backup',
+    loadComponent: () =>
+      import('./components/backup/backup.component').then(
+        (m) => m.BackupComponent
+      ),
+    canActivate: [AdminGuard],
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' },
