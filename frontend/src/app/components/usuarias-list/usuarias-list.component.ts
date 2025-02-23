@@ -9,9 +9,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator'; // Para paginación
 import { MatSortModule } from '@angular/material/sort'; // Para ordenar
 import { MatButtonModule } from '@angular/material/button';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Curso } from '../../interfaces/curso';
 
 @Component({
   selector: 'app-usuarias-list',
@@ -28,7 +27,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class UsuariasListComponent implements OnInit {
   usuarios: Usuario[] = [];
-  displayedColumns: string[] = [
+  displayedColumnsUsuario: string[] = [
     'id',
     'nombre',
     'email',
@@ -42,14 +41,15 @@ export class UsuariasListComponent implements OnInit {
   ]; // Las columnas de la tabla
   dataSource = new MatTableDataSource<Usuario>(this.usuarios); // MatTableDataSource para la tabla
 
-  constructor(private usuariaService: BDService, private router: Router) {}
+  constructor(private bdService: BDService, private router: Router) {}
 
   ngOnInit(): void {
     this.obtenerUsuarias();
+    this.obtenerCursos();
   }
 
   obtenerUsuarias(): void {
-    this.usuariaService.obtenerListaEmpleados().subscribe({
+    this.bdService.obtenerListaEmpleados().subscribe({
       next: (usuarios) => {
         this.usuarios = usuarios;
         this.dataSource.data = this.usuarios; // Actualiza los datos en el MatTableDataSource
@@ -70,7 +70,7 @@ export class UsuariasListComponent implements OnInit {
   }
 
   borrarUsuario(usuario: Usuario): void {
-    this.usuariaService.borrarUsuario(usuario.id).subscribe({
+    this.bdService.borrarUsuario(usuario.id).subscribe({
       next: () => {
         this.usuarios = this.usuarios.filter((u) => u.id !== usuario.id); // Eliminar de la lista local
         this.dataSource.data = this.usuarios; // Actualizar la tabla
@@ -81,5 +81,40 @@ export class UsuariasListComponent implements OnInit {
         console.error('Error al eliminar usuario:', error);
       },
     });
+  }
+
+  cursos: Curso[] = [];
+  displayedColumnsCurso: string[] = [
+    'id',
+    'nombre',
+    'descripcion',
+    'imagen',
+    'idCentro',
+    'acciones',
+  ];
+
+  dataSources = new MatTableDataSource<Curso>(this.cursos);
+
+  obtenerCursos(): void {
+    this.bdService.obtenerCursos().subscribe({
+      next: (cursos) => {
+        this.cursos = cursos;
+        this.dataSources.data = this.cursos; // Actualiza los datos en el MatTableDataSource
+        console.log('Cursos guardadas:', this.cursos);
+      },
+      error: (error) => {
+        console.error('Error al obtener Cursos:', error);
+      },
+    });
+  }
+
+  editarCurso(curso: Curso): void {
+    this.router.navigate([`/editarInsertar-curso/${curso.id}`]);
+  }
+
+  borrarCurso(curso: Curso): void {}
+
+  insertarCurso(): void {
+    console.log('Insertar curso');
   }
 }
