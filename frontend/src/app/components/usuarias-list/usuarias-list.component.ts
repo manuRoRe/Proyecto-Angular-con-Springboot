@@ -11,6 +11,7 @@ import { MatSortModule } from '@angular/material/sort'; // Para ordenar
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableDataSource } from '@angular/material/table';
 import { Curso } from '../../interfaces/curso';
+import { Centro } from '../../interfaces/centro';
 
 @Component({
   selector: 'app-usuarias-list',
@@ -51,13 +52,26 @@ export class UsuariasListComponent implements OnInit {
     'acciones',
   ];
 
-  dataSources = new MatTableDataSource<Curso>(this.cursos);
+  dataSourceCurso = new MatTableDataSource<Curso>(this.cursos);
+
+  centros: Centro[] = [];
+  displayedColumnsCentro: string[] = [
+    'id',
+    'nombre',
+    'direccion',
+    'sitio_web',
+    'imagen',
+    'acciones',
+  ];
+
+  dataSourceCentro = new MatTableDataSource<Centro>(this.centros);
 
   constructor(private bdService: BDService, private router: Router) {}
 
   ngOnInit(): void {
     this.obtenerUsuarias();
     this.obtenerCursos();
+    this.obtenerCentros();
   }
 
   obtenerUsuarias(): void {
@@ -103,7 +117,7 @@ export class UsuariasListComponent implements OnInit {
           ? curso.imagen
           : `data:image/jpeg;base64,${curso.imagen}`,
       }));
-      this.dataSources.data = this.cursos;
+      this.dataSourceCurso.data = this.cursos;
     });
   }
 
@@ -115,7 +129,7 @@ export class UsuariasListComponent implements OnInit {
     this.bdService.borrarCurso(curso.id).subscribe({
       next: () => {
         this.cursos = this.cursos.filter((c) => c.id !== curso.id); // Eliminar de la lista local
-        this.dataSources.data = this.cursos; // Actualizar la tabla
+        this.dataSourceCurso.data = this.cursos; // Actualizar la tabla
         console.log('Curso eliminado:', curso);
         alert('Curso eliminado');
       },
@@ -127,5 +141,39 @@ export class UsuariasListComponent implements OnInit {
 
   insertarCurso(): void {
     this.router.navigate([`/editarInsertar-curso/0`]);
+  }
+
+  obtenerCentros(): void {
+    this.bdService.obtenerCentros().subscribe((data) => {
+      this.centros = data.map((centro) => ({
+        ...centro,
+        imagen: centro.imagen.startsWith('data:image')
+          ? centro.imagen
+          : `data:image/jpeg;base64,${centro.imagen}`,
+      }));
+      this.dataSourceCentro.data = this.centros;
+    });
+  }
+
+  editarCentro(centro: Centro): void {
+    this.router.navigate([`/editarInsertar-centro/${centro.id}`]);
+  }
+
+  borrarCentro(centro: Centro): void {
+    this.bdService.borrarCentro(centro.id).subscribe({
+      next: () => {
+        this.centros = this.centros.filter((c) => c.id !== centro.id); // Eliminar de la lista local
+        this.dataSourceCentro.data = this.centros; // Actualizar la tabla
+        console.log('Centro eliminado:', centro);
+        alert('Centro eliminado');
+      },
+      error: (error) => {
+        console.error('Error al eliminar centro:', error);
+      },
+    });
+  }
+
+  insertarCentro(): void {
+    this.router.navigate([`/editarInsertar-centro/0`]);
   }
 }

@@ -1,4 +1,6 @@
-<button mat-button (click)="insertarUsuario()">Insertar</button>
+<button mat-button (click)="insertarUsuario()" class="bg-primary text-white">
+  Insertar
+</button>
 <table mat-table [dataSource]="dataSource" matSort>
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
@@ -64,9 +66,12 @@
   [pageSizeOptions]="[5, 10, 20]"
   showFirstLastButtons
 ></mat-paginator>
-<h1>CRUD CURSOS</h1>
-<button mat-button (click)="insertarCurso()">Insertar</button>
-<table mat-table [dataSource]="dataSources" matSort>
+
+<h1 class="mt-5">CRUD CURSOS</h1>
+<button mat-button (click)="insertarCurso()" class="bg-primary text-white">
+  Insertar
+</button>
+<table mat-table [dataSource]="dataSourceCurso" matSort>
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
     <td mat-cell *matCellDef="let curso">{{ curso.id }}</td>
@@ -111,6 +116,63 @@
 
   <tr mat-header-row *matHeaderRowDef="displayedColumnsCurso"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumnsCurso"></tr>
+</table>
+
+<mat-paginator
+  [pageSize]="10"
+  [pageSizeOptions]="[5, 10, 20]"
+  showFirstLastButtons
+></mat-paginator>
+
+<h1 class="mt-5">CRUD CENTROS</h1>
+<button mat-button (click)="insertarCentro()" class="bg-primary text-white">
+  Insertar
+</button>
+<table mat-table [dataSource]="dataSourceCentro" matSort>
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+    <td mat-cell *matCellDef="let centro">{{ centro.id }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="nombre">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+    <td mat-cell *matCellDef="let centro">{{ centro.nombre }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="sitio_web">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Sitio Web</th>
+    <td mat-cell *matCellDef="let centro">{{ centro.sitio_web }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="imagen">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Imagen</th>
+    <td mat-cell *matCellDef="let centro">
+      <img
+        *ngIf="centro.imagen"
+        [src]="centro.imagen"
+        alt="Imagen del centro"
+        class="img-fluid"
+      />
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="direccion">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Direccion</th>
+    <td mat-cell *matCellDef="let centro">{{ centro.direccion }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="acciones">
+    <th mat-header-cell *matHeaderCellDef>Acciones</th>
+    <td mat-cell *matCellDef="let centro">
+      <button mat-button (click)="editarCentro(centro)">Modificar</button>
+      <button mat-button color="warn" (click)="borrarCentro(centro)">
+        Borrar
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumnsCentro"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumnsCentro"></tr>
 </table>
 
 <mat-paginator

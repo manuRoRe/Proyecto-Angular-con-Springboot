@@ -87,6 +87,18 @@ export class BDService {
     return this.http.get<any>(`${this.baseURL}/centro/obtener/${id}`);
   }
 
+  borrarCentro(id: number): Observable<any> {
+    return this.http.delete(`${this.baseURL}/centro/eliminar/${id}`);
+  }
+
+  actualizarCentro(id: number, centro: Centro): Observable<any> {
+    return this.http.put(`${this.baseURL}/centro/actualizar/${id}`, centro);
+  }
+
+  insertarCentro(centro: Centro): Observable<any> {
+    return this.http.post<any>(`${this.baseURL}/centro/crear`, centro);
+  }
+
   //INSCRIPCION
 
   crearInscripcion(datos: any): Observable<any> {
