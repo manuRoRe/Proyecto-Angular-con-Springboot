@@ -84,7 +84,14 @@
 
   <ng-container matColumnDef="imagen">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Imagen</th>
-    <td mat-cell *matCellDef="let curso"></td>
+    <td mat-cell *matCellDef="let curso">
+      <img
+        *ngIf="curso.imagen"
+        [src]="curso.imagen"
+        alt="Imagen del curso"
+        class="img-fluid"
+      />
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="idCentro">

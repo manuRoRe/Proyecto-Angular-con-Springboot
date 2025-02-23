@@ -41,6 +41,18 @@ export class UsuariasListComponent implements OnInit {
   ]; // Las columnas de la tabla
   dataSource = new MatTableDataSource<Usuario>(this.usuarios); // MatTableDataSource para la tabla
 
+  cursos: Curso[] = [];
+  displayedColumnsCurso: string[] = [
+    'id',
+    'nombre',
+    'descripcion',
+    'imagen',
+    'idCentro',
+    'acciones',
+  ];
+
+  dataSources = new MatTableDataSource<Curso>(this.cursos);
+
   constructor(private bdService: BDService, private router: Router) {}
 
   ngOnInit(): void {
@@ -83,28 +95,15 @@ export class UsuariasListComponent implements OnInit {
     });
   }
 
-  cursos: Curso[] = [];
-  displayedColumnsCurso: string[] = [
-    'id',
-    'nombre',
-    'descripcion',
-    'imagen',
-    'idCentro',
-    'acciones',
-  ];
-
-  dataSources = new MatTableDataSource<Curso>(this.cursos);
-
   obtenerCursos(): void {
-    this.bdService.obtenerCursos().subscribe({
-      next: (cursos) => {
-        this.cursos = cursos;
-        this.dataSources.data = this.cursos; // Actualiza los datos en el MatTableDataSource
-        console.log('Cursos guardadas:', this.cursos);
-      },
-      error: (error) => {
-        console.error('Error al obtener Cursos:', error);
-      },
+    this.bdService.obtenerCursos().subscribe((data) => {
+      this.cursos = data.map((curso) => ({
+        ...curso,
+        imagen: curso.imagen.startsWith('data:image')
+          ? curso.imagen
+          : `data:image/jpeg;base64,${curso.imagen}`,
+      }));
+      this.dataSources.data = this.cursos;
     });
   }
 
@@ -112,9 +111,21 @@ export class UsuariasListComponent implements OnInit {
     this.router.navigate([`/editarInsertar-curso/${curso.id}`]);
   }
 
-  borrarCurso(curso: Curso): void {}
+  borrarCurso(curso: Curso): void {
+    this.bdService.borrarCurso(curso.id).subscribe({
+      next: () => {
+        this.cursos = this.cursos.filter((c) => c.id !== curso.id); // Eliminar de la lista local
+        this.dataSources.data = this.cursos; // Actualizar la tabla
+        console.log('Curso eliminado:', curso);
+        alert('Curso eliminado');
+      },
+      error: (error) => {
+        console.error('Error al eliminar curso:', error);
+      },
+    });
+  }
 
   insertarCurso(): void {
-    console.log('Insertar curso');
+    this.router.navigate([`/editarInsertar-curso/0`]);
   }
 }

@@ -8,6 +8,7 @@ import { DatosAutenticaUsuario } from '../interfaces/datosAutenticaUsuario';
 import { Centro } from '../interfaces/centro';
 import { DatosAltaInscripcion } from '../interfaces/datosAltaInscripcion';
 import { Inscripcion } from '../interfaces/inscripcion';
+import { DatosAltaCurso } from '../interfaces/datosAltaCurso';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class BDService {
 
   constructor(private http: HttpClient) {}
 
-  //metodo para obtener los empleados
+  //EMPLEADOS
   obtenerListaEmpleados(): Observable<Usuario[]> {
     return this.http.get<Usuario[]>(this.baseURL + '/usuario/obtener');
   }
@@ -54,6 +55,8 @@ export class BDService {
     localStorage.removeItem('user');
   }
 
+  //CURSOS
+
   obtenerCursos(): Observable<Curso[]> {
     return this.http.get<Curso[]>(this.baseURL + '/curso/obtener');
   }
@@ -66,6 +69,16 @@ export class BDService {
     return this.http.put(`${this.baseURL}/curso/actualizar/${id}`, curso);
   }
 
+  insertarCurso(datos: DatosAltaCurso): Observable<any> {
+    return this.http.post<any>(`${this.baseURL}/curso/crear`, datos);
+  }
+
+  borrarCurso(id: number): Observable<any> {
+    return this.http.delete(`${this.baseURL}/curso/eliminar/${id}`);
+  }
+
+  //CENTROS
+
   obtenerCentros(): Observable<Centro[]> {
     return this.http.get<Centro[]>(this.baseURL + '/centro/obtener');
   }
@@ -73,6 +86,8 @@ export class BDService {
   getCentroById(id: number): Observable<any> {
     return this.http.get<any>(`${this.baseURL}/centro/obtener/${id}`);
   }
+
+  //INSCRIPCION
 
   crearInscripcion(datos: any): Observable<any> {
     return this.http.post<any>(`${this.baseURL}/inscripcion/crear`, datos);

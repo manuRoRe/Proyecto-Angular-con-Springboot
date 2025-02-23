@@ -32,8 +32,8 @@ export class EditarInsertarCursoComponent implements OnInit {
     this.cursoForm = new FormGroup({
       nombre: new FormControl('', Validators.required),
       descripcion: new FormControl(''),
-      imagen: new FormControl(''),
-      id_centro: new FormControl(''),
+      imagen: new FormControl('imagen.jpeg'),
+      id_centro: new FormControl('', Validators.required),
     });
   }
 
@@ -93,7 +93,7 @@ export class EditarInsertarCursoComponent implements OnInit {
       }
 
       if (this.cur === 0) {
-        this.bdService.registrarUsuario(this.cursoForm.value).subscribe({
+        this.bdService.insertarCurso(this.cursoForm.value).subscribe({
           next: () => this.router.navigate(['/backup']),
           error: (err) => {
             console.error('Error al registrar usuario:', err);

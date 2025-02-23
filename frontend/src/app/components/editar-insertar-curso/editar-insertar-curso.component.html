@@ -9,6 +9,7 @@
         id="nombre"
         class="form-control"
         formControlName="nombre"
+        required
       />
     </div>
 
@@ -50,7 +51,12 @@
     <!-- ID Centro -->
     <div class="mb-3">
       <label for="id_centro" class="form-label">ID Centro</label>
-      <select id="id_centro" class="form-select" formControlName="id_centro">
+      <select
+        id="id_centro"
+        class="form-select"
+        formControlName="id_centro"
+        required
+      >
         <option *ngFor="let centro of centros" [value]="centro.id">
           {{ centro.id }} - {{ centro.nombre }}
         </option>
