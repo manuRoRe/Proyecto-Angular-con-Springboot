@@ -1,1 +1,79 @@
-<p>editar-insertar-curso works!</p>
+<div class="container mt-5">
+  <h2>Editar Curso</h2>
+  <form [formGroup]="cursoForm" (ngSubmit)="onSubmit()">
+    <!-- Nombre -->
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input
+        type="text"
+        id="nombre"
+        class="form-control"
+        formControlName="nombre"
+      />
+    </div>
+
+    <!-- Descripción -->
+    <div class="mb-3">
+      <label for="descripcion" class="form-label">Descripción</label>
+      <input
+        type="text"
+        id="descripcion"
+        class="form-control"
+        formControlName="descripcion"
+      />
+    </div>
+
+    <!-- Imagen -->
+    <div class="mb-3">
+      <label for="imagen" class="form-label">Imagen</label>
+      <input
+        type="file"
+        id="imagen"
+        class="form-control"
+        (change)="onFileSelected($event)"
+      />
+    </div>
+
+    <!-- Mostrar vista previa de la imagen -->
+    <div *ngIf="imagenPreview" class="mb-3">
+      <label class="form-label">Vista Previa</label>
+      <div>
+        <img
+          [src]="imagenPreview"
+          alt="Vista previa de la imagen"
+          class="img-thumbnail"
+          style="max-width: 200px; max-height: 200px"
+        />
+      </div>
+    </div>
+
+    <!-- ID Centro -->
+    <div class="mb-3">
+      <label for="id_centro" class="form-label">ID Centro</label>
+      <select id="id_centro" class="form-select" formControlName="id_centro">
+        <option *ngFor="let centro of centros" [value]="centro.id">
+          {{ centro.id }} - {{ centro.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <div *ngIf="insertar()">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!cursoForm.valid"
+      >
+        Insertar
+      </button>
+    </div>
+    <div *ngIf="!insertar()">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!cursoForm.valid"
+      >
+        Actualizar
+      </button>
+    </div>
+  </form>
+</div>

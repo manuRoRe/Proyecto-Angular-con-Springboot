@@ -76,7 +76,7 @@ public class cursoController {
     }
 
     @PutMapping("/actualizar/{id}")
-    public void actualizarUsuario(@PathVariable int id, @RequestBody DatosAltaCurso d) {
+    public void actualizarCurso(@PathVariable int id, @RequestBody DatosAltaCurso d) {
         Curso c = curRep.findById(id);
         c.setNombre(d.nombre);
         c.setDescripcion(d.descripcion);

@@ -62,6 +62,10 @@ export class BDService {
     return this.http.get<any>(`${this.baseURL}/curso/obtener/${id}`);
   }
 
+  actualizarCurso(id: number, curso: Curso): Observable<any> {
+    return this.http.put(`${this.baseURL}/curso/actualizar/${id}`, curso);
+  }
+
   obtenerCentros(): Observable<Centro[]> {
     return this.http.get<Centro[]>(this.baseURL + '/centro/obtener');
   }
