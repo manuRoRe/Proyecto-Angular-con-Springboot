@@ -19,6 +19,8 @@ public interface usuarioRepositorio extends JpaRepository<Usuario, Serializable>
 
 	public abstract Usuario findByEmailAndPassword(String email, String password);
 
+	boolean existsByEmail(String email);
+
 	@SuppressWarnings("null")
 	@Transactional
 	public abstract void delete(Usuario u);

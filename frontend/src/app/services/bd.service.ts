@@ -55,6 +55,10 @@ export class BDService {
     localStorage.removeItem('user');
   }
 
+  existeEmail(email: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.baseURL}/usuario/existe/${email}`);
+  }
+
   //CURSOS
 
   obtenerCursos(): Observable<Curso[]> {

@@ -3,93 +3,98 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
+  AbstractControl,
+  AsyncValidatorFn,
   ReactiveFormsModule,
+  FormControl,
 } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { BDService } from '../../services/bd.service';
 import { DatosAltaUsuario } from '../../interfaces/datosAltaUsuario';
 import { Router } from '@angular/router';
-
-// 📌 Importaciones de Angular Material
-import { MatCardModule } from '@angular/material/card';
-import { MatSelectModule } from '@angular/material/select';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatRadioModule } from '@angular/material/radio';
 import { DatosAutenticaUsuario } from '../../interfaces/datosAutenticaUsuario';
-import { DatosAltaInscripcion } from '../../interfaces/datosAltaInscripcion';
+import { Observable, debounceTime, switchMap, of, catchError } from 'rxjs';
 
 @Component({
   selector: 'app-registro',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    CommonModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatGridListModule,
-    MatRadioModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.css'],
 })
 export class RegistroComponent {
   registroForm: FormGroup;
 
+  // Lista de posibles aficiones
+  paises: string[] = ['España', 'Francia', 'Italia', 'Alemania', 'Inglaterra']; // Lista de países
+  aficiones: string[] = ['Deportes', 'Música', 'Cine', 'Viajar', 'Leer']; // Lista de aficiones
+
   constructor(
     private fb: FormBuilder,
     private registroService: BDService,
     private router: Router
   ) {
-    this.registroForm = this.fb.group({
-      nombre: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(4)]],
-      admin: [0],
-      aficiones: [''],
-      apellidos: [''],
-      pais: [''],
-      sexo: [''],
-    });
+    this.registroForm = this.fb.group(
+      {
+        nombre: ['', Validators.required],
+        email: [
+          '',
+          [Validators.required, Validators.email],
+          [this.emailDisponibleValidator()],
+        ],
+        password: ['', [Validators.required, Validators.minLength(4)]],
+        confirmarPassword: ['', Validators.required],
+        aficiones: [],
+        apellidos: [''],
+        pais: [''],
+        sexo: [''],
+        admin: [0],
+      },
+      { validators: this.coincidenPasswords }
+    );
+  }
+
+  emailDisponibleValidator(): AsyncValidatorFn {
+    return (
+      control: AbstractControl
+    ): Observable<{ emailOcupado: boolean } | null> => {
+      return control.value
+        ? this.registroService.existeEmail(control.value).pipe(
+            debounceTime(500),
+            switchMap((existe) =>
+              existe ? of({ emailOcupado: true }) : of(null)
+            ),
+            catchError(() => of(null))
+          )
+        : of(null);
+    };
+  }
+
+  coincidenPasswords(group: AbstractControl) {
+    const password = group.get('password')?.value;
+    const confirmarPassword = group.get('confirmarPassword')?.value;
+    return password === confirmarPassword ? null : { noCoincide: true };
   }
 
   onSubmit(): void {
     if (this.registroForm.valid) {
-      // Convertir valores vacíos en null
-      const formValue = this.registroForm.value;
-
-      const usuario: DatosAltaUsuario = {
-        email: formValue.email || null,
-        nombre: formValue.nombre || null,
-        apellidos: formValue.apellidos || null,
-        sexo: formValue.sexo || null,
-        password: formValue.password || null,
-        aficiones: formValue.aficiones || null,
-        pais: formValue.pais || null,
-        admin: formValue.admin || 0, // Valor predeterminado para admin
+      const usuarioFormValue = {
+        ...this.registroForm.value,
+        aficiones: this.registroForm.value.aficiones.join(','), // Convertir array a string
       };
 
       const datosUsuario: DatosAutenticaUsuario = {
-        email: formValue.email,
-        password: formValue.password,
+        email: usuarioFormValue.email,
+        password: usuarioFormValue.password,
       };
 
-      this.registroService.registrarUsuario(usuario).subscribe({
+      this.registroService.registrarUsuario(usuarioFormValue).subscribe({
         next: () => {
           console.log('Usuario registrado exitosamente');
           this.registroService.login(datosUsuario).subscribe({
             next: (response) => {
               if (response.result === 'Succes') {
-                localStorage.setItem('jwt', response.jwt); // Guardar nombre en localStorage
+                localStorage.setItem('jwt', response.jwt);
                 window.location.reload();
               }
             },
@@ -104,5 +109,22 @@ export class RegistroComponent {
     } else {
       console.log('Formulario inválido');
     }
+  }
+
+  onAficionChange(event: any, aficion: string) {
+    const aficionesSeleccionadas = this.registroForm.value.aficiones || [];
+
+    if (event.target.checked) {
+      aficionesSeleccionadas.push(aficion);
+      console.log(aficion);
+      console.log(aficionesSeleccionadas);
+    } else {
+      const index = aficionesSeleccionadas.indexOf(aficion);
+      if (index > -1) {
+        aficionesSeleccionadas.splice(index, 1);
+      }
+    }
+
+    this.registroForm.patchValue({ aficiones: aficionesSeleccionadas });
   }
 }

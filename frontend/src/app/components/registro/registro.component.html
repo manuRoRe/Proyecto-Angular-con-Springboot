@@ -1,93 +1,207 @@
-<div class="registro-container">
-  <mat-card class="registro-card">
-    <mat-card-title class="mb-4">Registro de Usuario</mat-card-title>
-    <mat-card-content>
-      <form (ngSubmit)="onSubmit()" [formGroup]="registroForm">
-        <mat-grid-list cols="2" rowHeight="2:1" gutterSize="16px">
-          <!-- Nombre -->
-          <mat-grid-tile>
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Nombre *</mat-label>
-              <input matInput formControlName="nombre" required />
-            </mat-form-field>
-          </mat-grid-tile>
+<div class="container mt-5">
+  <h2>Registro de Usuario</h2>
+  <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
+    <!-- Nombre -->
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre *</label>
+      <input
+        type="text"
+        id="nombre"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid':
+            registroForm.get('nombre')?.invalid &&
+            registroForm.get('nombre')?.touched
+        }"
+        formControlName="nombre"
+      />
+    </div>
+    <div
+      *ngIf="
+        registroForm.get('nombre')?.hasError('required') &&
+        registroForm.get('nombre')?.touched
+      "
+      class="text-danger"
+    >
+      El nombre es obligatorio.
+    </div>
 
-          <!-- Apellidos (Opcional) -->
-          <mat-grid-tile>
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Apellidos</mat-label>
-              <input
-                matInput
-                formControlName="apellidos"
-                placeholder="Opcional"
-              />
-            </mat-form-field>
-          </mat-grid-tile>
+    <!-- Apellidos -->
+    <div class="mb-3">
+      <label for="apellidos" class="form-label">Apellidos</label>
+      <input
+        type="text"
+        id="apellidos"
+        class="form-control"
+        formControlName="apellidos"
+      />
+    </div>
 
-          <!-- Email -->
-          <mat-grid-tile>
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Email *</mat-label>
-              <input matInput type="email" formControlName="email" required />
-            </mat-form-field>
-          </mat-grid-tile>
+    <!-- Correo Electrónico -->
 
-          <!-- Sexo (Opcional) -->
-          <mat-grid-tile>
-            <mat-label>Sexo</mat-label>
-            <mat-radio-group formControlName="sexo">
-              <mat-radio-button value="Masculino">Masculino</mat-radio-button>
-              <mat-radio-button value="Femenino">Femenino</mat-radio-button>
-            </mat-radio-group>
-          </mat-grid-tile>
+    <div class="mb-3">
+      <label for="email" class="form-label">Correo Electrónico *</label>
+      <input
+        type="email"
+        id="email"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid':
+            registroForm.get('email')?.invalid &&
+            registroForm.get('email')?.touched
+        }"
+        formControlName="email"
+      />
+      <div
+        *ngIf="
+          registroForm.get('email')?.hasError('required') &&
+          registroForm.get('email')?.touched
+        "
+        class="text-danger"
+      >
+        El correo es obligatorio.
+      </div>
+      <div
+        *ngIf="
+          registroForm.get('email')?.hasError('email') &&
+          registroForm.get('email')?.touched
+        "
+        class="text-danger"
+      >
+        El formato del correo no es válido.
+      </div>
+      <div
+        *ngIf="registroForm.get('email')?.hasError('emailOcupado')"
+        class="text-danger"
+      >
+        Este correo ya está en uso.
+      </div>
+    </div>
 
-          <!-- Contraseña -->
-          <mat-grid-tile>
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Contraseña *</mat-label>
-              <input
-                matInput
-                type="password"
-                formControlName="password"
-                required
-              />
-            </mat-form-field>
-          </mat-grid-tile>
+    <!-- Contraseña -->
+    <div class="mb-3">
+      <label for="password" class="form-label">Contraseña *</label>
+      <input
+        type="password"
+        id="password"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid':
+            registroForm.get('password')?.invalid &&
+            registroForm.get('password')?.touched
+        }"
+        formControlName="password"
+      />
+      <div
+        *ngIf="
+          registroForm.get('password')?.hasError('required') &&
+          registroForm.get('password')?.touched
+        "
+        class="text-danger"
+      >
+        La contraseña es obligatoria.
+      </div>
+      <div
+        *ngIf="
+          registroForm.get('password')?.hasError('minlength') &&
+          registroForm.get('password')?.touched
+        "
+        class="text-danger"
+      >
+        La contraseña debe tener al menos 4 caracteres.
+      </div>
+    </div>
 
-          <!-- Aficiones (Opcional) -->
-          <mat-grid-tile>
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Aficiones</mat-label>
-              <input
-                matInput
-                formControlName="aficiones"
-                placeholder="Opcional"
-              />
-            </mat-form-field>
-          </mat-grid-tile>
+    <!-- Confirmar Contraseña -->
+    <div class="mb-3">
+      <label for="confirmarPassword" class="form-label"
+        >Confirmar Contraseña *</label
+      >
+      <input
+        type="password"
+        id="confirmarPassword"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid':
+            registroForm.hasError('noCoincide') &&
+            registroForm.get('confirmarPassword')?.touched &&
+            registroForm.get('confirmarPassword')?.hasError('required')
+        }"
+        formControlName="confirmarPassword"
+      />
+      <div
+        *ngIf="
+          registroForm.hasError('noCoincide') &&
+          registroForm.get('confirmarPassword')?.touched
+        "
+        class="text-danger"
+      >
+        Las contraseñas no coinciden.
+      </div>
+      <div
+        *ngIf="
+          registroForm.get('password')?.hasError('required') &&
+          registroForm.get('password')?.touched
+        "
+        class="text-danger"
+      >
+        La confirmacion de contraseña es obligatoria.
+      </div>
+    </div>
 
-          <!-- País (Opcional) -->
-          <mat-grid-tile>
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Pais</mat-label>
-              <mat-select formControlName="pais">
-                <mat-option value="España">España</mat-option>
-                <mat-option value="Alemania">Alemania</mat-option>
-                <mat-option value="Inglaterra">Inglaterra</mat-option>
-                <mat-option value="Francia">Francia</mat-option>
-                <mat-option value="Italia">Italia</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </mat-grid-tile>
-        </mat-grid-list>
+    <!-- Sexo -->
+    <div class="mb-3">
+      <label class="form-label">Sexo</label>
+      <div>
+        <label>
+          <input type="radio" formControlName="sexo" value="Masculino" />
+          Masculino
+        </label>
+        <label>
+          <input type="radio" formControlName="sexo" value="Femenino" />
+          Femenino
+        </label>
+      </div>
+    </div>
 
-        <!-- Botón de envío -->
-        <div class="boton-container">
-          <button mat-raised-button id="btSubmit" type="submit">
-            Registrar
-          </button>
-        </div>
-      </form>
-    </mat-card-content>
-  </mat-card>
+    <!-- País -->
+    <div class="mb-3">
+      <label for="pais" class="form-label">País</label>
+      <select id="pais" class="form-select" formControlName="pais">
+        <option *ngFor="let pais of paises" [value]="pais">
+          {{ pais }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Aficiones -->
+    <div class="mb-3">
+      <label class="form-label">Aficiones</label>
+      <div *ngFor="let aficion of aficiones">
+        <input
+          type="checkbox"
+          [value]="aficion"
+          [checked]="registroForm.value.aficiones?.includes(aficion) || false"
+          (change)="onAficionChange($event, aficion)"
+        />
+        <label>{{ aficion }}</label>
+      </div>
+    </div>
+
+    <input
+      type="hidden"
+      id="admin"
+      formControlName="admin"
+      [value]="0"
+      formControlName="admin"
+    />
+
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="!registroForm.valid"
+    >
+      Registrar
+    </button>
+  </form>
 </div>

@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 import com.example.demo.jwtSecurity.AutenticadorJWT;
 import com.example.demo.modelos.Usuario;
@@ -61,6 +62,12 @@ public class usuarioController {
         dtoUsuaria.put("aficiones", u.getAficiones());
         return dtoUsuaria;
 
+    }
+
+    @GetMapping("/existe/{email}")
+    public ResponseEntity<Boolean> existeUsuario(@PathVariable String email) {
+        boolean existe = usuRep.existsByEmail(email);
+        return ResponseEntity.ok(existe);
     }
 
     // Crear usuario
