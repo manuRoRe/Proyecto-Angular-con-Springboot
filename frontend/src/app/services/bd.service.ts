@@ -109,7 +109,15 @@ export class BDService {
     return this.http.post<any>(`${this.baseURL}/inscripcion/crear`, datos);
   }
 
+  obtenerInscripciones(): Observable<Inscripcion[]> {
+    return this.http.get<Inscripcion[]>(this.baseURL + '/inscripcion/obtener');
+  }
+
   getInscripcionesPorUsuario(id: number): Observable<Inscripcion[]> {
     return this.http.get<any[]>(`${this.baseURL}/inscripcion/usuario/${id}`);
+  }
+
+  borrarInscripcion(id: number): Observable<any> {
+    return this.http.delete(`${this.baseURL}/inscripcion/eliminar/${id}`);
   }
 }

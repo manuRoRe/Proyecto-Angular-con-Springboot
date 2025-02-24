@@ -66,6 +66,14 @@ export const routes: Routes = [
       ).then((m) => m.EditarInsertarCentroComponent),
     canActivate: [AdminGuard],
   },
+  {
+    path: 'editarInsertar-inscripcion/:id',
+    loadComponent: () =>
+      import(
+        './components/editar-insertar-inscripcion/editar-insertar-inscripcion.component'
+      ).then((m) => m.EditarInsertarInscripcionComponent),
+    canActivate: [AdminGuard],
+  },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' },
 ];

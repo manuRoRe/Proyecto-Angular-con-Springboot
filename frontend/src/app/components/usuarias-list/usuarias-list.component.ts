@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableDataSource } from '@angular/material/table';
 import { Curso } from '../../interfaces/curso';
 import { Centro } from '../../interfaces/centro';
+import { Inscripcion } from '../../interfaces/inscripcion';
 
 @Component({
   selector: 'app-usuarias-list',
@@ -66,12 +67,26 @@ export class UsuariasListComponent implements OnInit {
 
   dataSourceCentro = new MatTableDataSource<Centro>(this.centros);
 
+  inscripciones: Inscripcion[] = [];
+  displayedColumnsInscripcion: string[] = [
+    'id',
+    'fecha_inscripcion',
+    'id_curso',
+    'id_usuario',
+    'acciones',
+  ];
+
+  dataSourceInscripcion = new MatTableDataSource<Inscripcion>(
+    this.inscripciones
+  );
+
   constructor(private bdService: BDService, private router: Router) {}
 
   ngOnInit(): void {
     this.obtenerUsuarias();
     this.obtenerCursos();
     this.obtenerCentros();
+    this.obtenerInscripciones();
   }
 
   obtenerUsuarias(): void {
@@ -175,5 +190,42 @@ export class UsuariasListComponent implements OnInit {
 
   insertarCentro(): void {
     this.router.navigate([`/editarInsertar-centro/0`]);
+  }
+
+  obtenerInscripciones(): void {
+    this.bdService.obtenerInscripciones().subscribe({
+      next: (inscripciones) => {
+        this.inscripciones = inscripciones;
+        this.dataSourceInscripcion.data = this.inscripciones; // Actualiza los datos en el MatTableDataSource
+        console.log('Inscripciones guardadas:', this.inscripciones);
+      },
+      error: (error) => {
+        console.error('Error al obtener inscripciones:', error);
+      },
+    });
+  }
+
+  editarInscripcion(inscripcion: Inscripcion): void {
+    this.router.navigate([`/editarInsertar-inscripcion/${inscripcion.id}`]);
+  }
+
+  borrarInscripcion(inscripcion: Inscripcion): void {
+    this.bdService.borrarInscripcion(inscripcion.id).subscribe({
+      next: () => {
+        this.inscripciones = this.inscripciones.filter(
+          (i) => i.id !== inscripcion.id
+        ); // Eliminar de la lista local
+        this.dataSourceInscripcion.data = this.inscripciones; // Actualizar la tabla
+        console.log('Inscripcion eliminada:', inscripcion);
+        alert('Inscripcion eliminada');
+      },
+      error: (error) => {
+        console.error('Error al eliminar inscripcion:', error);
+      },
+    });
+  }
+
+  insertarInscripcion(): void {
+    this.router.navigate([`/editarInsertar-inscripcion/0`]);
   }
 }

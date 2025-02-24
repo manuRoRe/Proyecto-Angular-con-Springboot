@@ -180,3 +180,56 @@
   [pageSizeOptions]="[5, 10, 20]"
   showFirstLastButtons
 ></mat-paginator>
+
+<h1 class="mt-5">CRUD INSCRIPCIONES</h1>
+<button
+  mat-button
+  (click)="insertarInscripcion()"
+  class="bg-primary text-white"
+>
+  Insertar
+</button>
+<table mat-table [dataSource]="dataSourceInscripcion" matSort>
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+    <td mat-cell *matCellDef="let inscripcion">{{ inscripcion.id }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="fecha_inscripcion">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Inscripcion</th>
+    <td mat-cell *matCellDef="let inscripcion">
+      {{ inscripcion.fecha_inscripcion | date : "dd/MM/yyyy" }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="id_curso">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID Curso</th>
+    <td mat-cell *matCellDef="let inscripcion">{{ inscripcion.id_curso }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="id_usuario">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID Curso</th>
+    <td mat-cell *matCellDef="let inscripcion">{{ inscripcion.id_usuario }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="acciones">
+    <th mat-header-cell *matHeaderCellDef>Acciones</th>
+    <td mat-cell *matCellDef="let inscripcion">
+      <button mat-button (click)="editarInscripcion(inscripcion)">
+        Modificar
+      </button>
+      <button mat-button color="warn" (click)="borrarInscripcion(inscripcion)">
+        Borrar
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumnsInscripcion"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumnsInscripcion"></tr>
+</table>
+
+<mat-paginator
+  [pageSize]="10"
+  [pageSizeOptions]="[5, 10, 20]"
+  showFirstLastButtons
+></mat-paginator>
