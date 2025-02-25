@@ -8,11 +8,16 @@ import { Usuario } from '../../interfaces/usuario';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator'; // Para paginación
 import { MatSortModule } from '@angular/material/sort'; // Para ordenar
-import { MatButtonModule } from '@angular/material/button';
+import {
+  MatButtonModule,
+  MatIconAnchor,
+  MatIconButton,
+} from '@angular/material/button';
 import { MatTableDataSource } from '@angular/material/table';
 import { Curso } from '../../interfaces/curso';
 import { Centro } from '../../interfaces/centro';
 import { Inscripcion } from '../../interfaces/inscripcion';
+import { MatCard } from '@angular/material/card';
 
 @Component({
   selector: 'app-usuarias-list',
@@ -23,6 +28,7 @@ import { Inscripcion } from '../../interfaces/inscripcion';
     MatPaginatorModule,
     MatSortModule,
     MatButtonModule,
+    MatCard,
   ],
   templateUrl: './usuarias-list.component.html',
   styleUrls: ['./usuarias-list.component.css'],

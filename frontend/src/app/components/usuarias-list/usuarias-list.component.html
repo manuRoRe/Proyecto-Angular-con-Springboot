@@ -1,235 +1,227 @@
-<button mat-button (click)="insertarUsuario()" class="bg-primary text-white">
-  Insertar
+<button mat-raised-button color="primary" (click)="insertarUsuario()">
+  Insertar Usuario
 </button>
-<table mat-table [dataSource]="dataSource" matSort>
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-    <td mat-cell *matCellDef="let usuario">{{ usuario.id }}</td>
-  </ng-container>
+<mat-card class="table-container">
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+      <td mat-cell *matCellDef="let usuario">{{ usuario.id }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="nombre">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
-    <td mat-cell *matCellDef="let usuario">{{ usuario.nombre }}</td>
-  </ng-container>
+    <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+      <td mat-cell *matCellDef="let usuario">{{ usuario.nombre }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="email">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
-    <td mat-cell *matCellDef="let usuario">{{ usuario.email }}</td>
-  </ng-container>
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+      <td mat-cell *matCellDef="let usuario">{{ usuario.email }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="apellidos">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Apellidos</th>
-    <td mat-cell *matCellDef="let usuario">{{ usuario.apellidos }}</td>
-  </ng-container>
+    <ng-container matColumnDef="apellidos">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Apellidos</th>
+      <td mat-cell *matCellDef="let usuario">{{ usuario.apellidos }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="sexo">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Sexo</th>
-    <td mat-cell *matCellDef="let usuario">{{ usuario.sexo }}</td>
-  </ng-container>
+    <ng-container matColumnDef="sexo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Sexo</th>
+      <td mat-cell *matCellDef="let usuario">{{ usuario.sexo }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="password">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Password</th>
-    <td mat-cell *matCellDef="let usuario">{{ usuario.password }}</td>
-  </ng-container>
+    <ng-container matColumnDef="password">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Password</th>
+      <td mat-cell *matCellDef="let usuario">{{ usuario.password }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="pais">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Pais</th>
-    <td mat-cell *matCellDef="let usuario">{{ usuario.pais }}</td>
-  </ng-container>
+    <ng-container matColumnDef="pais">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Pais</th>
+      <td mat-cell *matCellDef="let usuario">{{ usuario.pais }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="aficiones">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Aficiones</th>
-    <td mat-cell *matCellDef="let usuario">{{ usuario.aficiones }}</td>
-  </ng-container>
+    <ng-container matColumnDef="aficiones">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Aficiones</th>
+      <td mat-cell *matCellDef="let usuario">{{ usuario.aficiones }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="admin">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Admin</th>
-    <td mat-cell *matCellDef="let usuario">{{ usuario.admin }}</td>
-  </ng-container>
+    <ng-container matColumnDef="admin">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Admin</th>
+      <td mat-cell *matCellDef="let usuario">{{ usuario.admin }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="acciones">
-    <th mat-header-cell *matHeaderCellDef>Acciones</th>
-    <td mat-cell *matCellDef="let usuario">
-      <button mat-button (click)="editarUsuario(usuario)">Modificar</button>
-      <button mat-button color="warn" (click)="borrarUsuario(usuario)">
-        Borrar
-      </button>
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let usuario">
+        <button mat-button (click)="editarUsuario(usuario)">Modificar</button>
+        <button mat-button color="warn" (click)="borrarUsuario(usuario)">
+          Borrar
+        </button>
+      </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumnsUsuario"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumnsUsuario"></tr>
-</table>
-
-<mat-paginator
-  [pageSize]="10"
-  [pageSizeOptions]="[5, 10, 20]"
-  showFirstLastButtons
-></mat-paginator>
+    <tr mat-header-row *matHeaderRowDef="displayedColumnsUsuario"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumnsUsuario"></tr>
+  </table>
+</mat-card>
 
 <h1 class="mt-5">CRUD CURSOS</h1>
-<button mat-button (click)="insertarCurso()" class="bg-primary text-white">
-  Insertar
+<button mat-raised-button color="primary" (click)="insertarCurso()">
+  Insertar Curso
 </button>
-<table mat-table [dataSource]="dataSourceCurso" matSort>
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-    <td mat-cell *matCellDef="let curso">{{ curso.id }}</td>
-  </ng-container>
+<mat-card class="table-container">
+  <table mat-table [dataSource]="dataSourceCurso" matSort>
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+      <td mat-cell *matCellDef="let curso">{{ curso.id }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="nombre">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
-    <td mat-cell *matCellDef="let curso">{{ curso.nombre }}</td>
-  </ng-container>
+    <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+      <td mat-cell *matCellDef="let curso">{{ curso.nombre }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="descripcion">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripcion</th>
-    <td mat-cell *matCellDef="let curso">{{ curso.descripcion }}</td>
-  </ng-container>
+    <ng-container matColumnDef="descripcion">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripcion</th>
+      <td mat-cell *matCellDef="let curso">{{ curso.descripcion }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="imagen">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Imagen</th>
-    <td mat-cell *matCellDef="let curso">
-      <img
-        *ngIf="curso.imagen"
-        [src]="curso.imagen"
-        alt="Imagen del curso"
-        class="img-fluid"
-      />
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="imagen">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Imagen</th>
+      <td mat-cell *matCellDef="let curso">
+        <img
+          *ngIf="curso.imagen"
+          [src]="curso.imagen"
+          alt="Imagen del curso"
+          class="img-fluid"
+        />
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="idCentro">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>IdCentro</th>
-    <td mat-cell *matCellDef="let curso">{{ curso.idCentro }}</td>
-  </ng-container>
+    <ng-container matColumnDef="idCentro">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>IdCentro</th>
+      <td mat-cell *matCellDef="let curso">{{ curso.idCentro }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="acciones">
-    <th mat-header-cell *matHeaderCellDef>Acciones</th>
-    <td mat-cell *matCellDef="let curso">
-      <button mat-button (click)="editarCurso(curso)">Modificar</button>
-      <button mat-button color="warn" (click)="borrarCurso(curso)">
-        Borrar
-      </button>
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let curso">
+        <button mat-button (click)="editarCurso(curso)">Modificar</button>
+        <button mat-button color="warn" (click)="borrarCurso(curso)">
+          Borrar
+        </button>
+      </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumnsCurso"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumnsCurso"></tr>
-</table>
-
-<mat-paginator
-  [pageSize]="10"
-  [pageSizeOptions]="[5, 10, 20]"
-  showFirstLastButtons
-></mat-paginator>
+    <tr mat-header-row *matHeaderRowDef="displayedColumnsCurso"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumnsCurso"></tr>
+  </table>
+</mat-card>
 
 <h1 class="mt-5">CRUD CENTROS</h1>
-<button mat-button (click)="insertarCentro()" class="bg-primary text-white">
-  Insertar
+<button mat-raised-button color="primary" (click)="insertarCentro()">
+  Insertar Centro
 </button>
-<table mat-table [dataSource]="dataSourceCentro" matSort>
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-    <td mat-cell *matCellDef="let centro">{{ centro.id }}</td>
-  </ng-container>
+<mat-card class="table-container">
+  <table mat-table [dataSource]="dataSourceCentro" matSort>
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+      <td mat-cell *matCellDef="let centro">{{ centro.id }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="nombre">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
-    <td mat-cell *matCellDef="let centro">{{ centro.nombre }}</td>
-  </ng-container>
+    <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+      <td mat-cell *matCellDef="let centro">{{ centro.nombre }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="sitio_web">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Sitio Web</th>
-    <td mat-cell *matCellDef="let centro">{{ centro.sitio_web }}</td>
-  </ng-container>
+    <ng-container matColumnDef="sitio_web">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Sitio Web</th>
+      <td mat-cell *matCellDef="let centro">{{ centro.sitio_web }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="imagen">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Imagen</th>
-    <td mat-cell *matCellDef="let centro">
-      <img
-        *ngIf="centro.imagen"
-        [src]="centro.imagen"
-        alt="Imagen del centro"
-        class="img-fluid"
-      />
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="imagen">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Imagen</th>
+      <td mat-cell *matCellDef="let centro">
+        <img
+          *ngIf="centro.imagen"
+          [src]="centro.imagen"
+          alt="Imagen del centro"
+          class="img-fluid"
+        />
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="direccion">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Direccion</th>
-    <td mat-cell *matCellDef="let centro">{{ centro.direccion }}</td>
-  </ng-container>
+    <ng-container matColumnDef="direccion">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Direccion</th>
+      <td mat-cell *matCellDef="let centro">{{ centro.direccion }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="acciones">
-    <th mat-header-cell *matHeaderCellDef>Acciones</th>
-    <td mat-cell *matCellDef="let centro">
-      <button mat-button (click)="editarCentro(centro)">Modificar</button>
-      <button mat-button color="warn" (click)="borrarCentro(centro)">
-        Borrar
-      </button>
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let centro">
+        <button mat-button (click)="editarCentro(centro)">Modificar</button>
+        <button mat-button color="warn" (click)="borrarCentro(centro)">
+          Borrar
+        </button>
+      </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumnsCentro"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumnsCentro"></tr>
-</table>
-
-<mat-paginator
-  [pageSize]="10"
-  [pageSizeOptions]="[5, 10, 20]"
-  showFirstLastButtons
-></mat-paginator>
+    <tr mat-header-row *matHeaderRowDef="displayedColumnsCentro"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumnsCentro"
+    ></tr></table
+></mat-card>
 
 <h1 class="mt-5">CRUD INSCRIPCIONES</h1>
-<button
-  mat-button
-  (click)="insertarInscripcion()"
-  class="bg-primary text-white"
->
-  Insertar
+<button mat-raised-button color="primary" (click)="insertarInscripcion()">
+  Insertar Inscripcion
 </button>
-<table mat-table [dataSource]="dataSourceInscripcion" matSort>
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-    <td mat-cell *matCellDef="let inscripcion">{{ inscripcion.id }}</td>
-  </ng-container>
+<mat-card class="table-container">
+  <table mat-table [dataSource]="dataSourceInscripcion" matSort>
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+      <td mat-cell *matCellDef="let inscripcion">{{ inscripcion.id }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="fecha_inscripcion">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Inscripcion</th>
-    <td mat-cell *matCellDef="let inscripcion">
-      {{ inscripcion.fecha_inscripcion | date : "dd/MM/yyyy" }}
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="fecha_inscripcion">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Fecha Inscripcion
+      </th>
+      <td mat-cell *matCellDef="let inscripcion">
+        {{ inscripcion.fecha_inscripcion | date : "dd/MM/yyyy" }}
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="id_curso">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID Curso</th>
-    <td mat-cell *matCellDef="let inscripcion">{{ inscripcion.id_curso }}</td>
-  </ng-container>
+    <ng-container matColumnDef="id_curso">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID Curso</th>
+      <td mat-cell *matCellDef="let inscripcion">{{ inscripcion.id_curso }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="id_usuario">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID Usuario</th>
-    <td mat-cell *matCellDef="let inscripcion">{{ inscripcion.id_usuario }}</td>
-  </ng-container>
+    <ng-container matColumnDef="id_usuario">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID Usuario</th>
+      <td mat-cell *matCellDef="let inscripcion">
+        {{ inscripcion.id_usuario }}
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="acciones">
-    <th mat-header-cell *matHeaderCellDef>Acciones</th>
-    <td mat-cell *matCellDef="let inscripcion">
-      <button mat-button (click)="editarInscripcion(inscripcion)">
-        Modificar
-      </button>
-      <button mat-button color="warn" (click)="borrarInscripcion(inscripcion)">
-        Borrar
-      </button>
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let inscripcion">
+        <button mat-button (click)="editarInscripcion(inscripcion)">
+          Modificar
+        </button>
+        <button
+          mat-button
+          color="warn"
+          (click)="borrarInscripcion(inscripcion)"
+        >
+          Borrar
+        </button>
+      </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumnsInscripcion"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumnsInscripcion"></tr>
-</table>
-
-<mat-paginator
-  [pageSize]="10"
-  [pageSizeOptions]="[5, 10, 20]"
-  showFirstLastButtons
-></mat-paginator>
+    <tr mat-header-row *matHeaderRowDef="displayedColumnsInscripcion"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumnsInscripcion"
+    ></tr></table
+></mat-card>
