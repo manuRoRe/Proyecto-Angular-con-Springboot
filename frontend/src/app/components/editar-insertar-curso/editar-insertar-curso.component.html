@@ -3,14 +3,26 @@
   <form [formGroup]="cursoForm" (ngSubmit)="onSubmit()">
     <!-- Nombre -->
     <div class="mb-3">
-      <label for="nombre" class="form-label">Nombre</label>
+      <label for="nombre" class="form-label">Nombre *</label>
       <input
         type="text"
         id="nombre"
         class="form-control"
+        [ngClass]="{
+          'is-invalid':
+            cursoForm.get('nombre')?.invalid && cursoForm.get('nombre')?.touched
+        }"
         formControlName="nombre"
-        required
       />
+    </div>
+    <div
+      *ngIf="
+        cursoForm.get('nombre')?.hasError('required') &&
+        cursoForm.get('nombre')?.touched
+      "
+      class="text-danger"
+    >
+      El nombre es obligatorio.
     </div>
 
     <!-- Descripción -->
@@ -57,7 +69,7 @@
         formControlName="id_centro"
         required
       >
-        <option *ngFor="let centro of centros" [value]="centro.id">
+        <option *ngFor="let centro of centros" [value]="centro.id" selected>
           {{ centro.id }} - {{ centro.nombre }}
         </option>
       </select>

@@ -3,14 +3,27 @@
   <form [formGroup]="centroForm" (ngSubmit)="onSubmit()">
     <!-- Nombre -->
     <div class="mb-3">
-      <label for="nombre" class="form-label">Nombre</label>
+      <label for="nombre" class="form-label">Nombre *</label>
       <input
         type="text"
         id="nombre"
         class="form-control"
+        [ngClass]="{
+          'is-invalid':
+            centroForm.get('nombre')?.invalid &&
+            centroForm.get('nombre')?.touched
+        }"
         formControlName="nombre"
-        required
       />
+    </div>
+    <div
+      *ngIf="
+        centroForm.get('nombre')?.hasError('required') &&
+        centroForm.get('nombre')?.touched
+      "
+      class="text-danger"
+    >
+      El nombre es obligatorio.
     </div>
 
     <!-- Descripción -->
