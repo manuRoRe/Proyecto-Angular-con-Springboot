@@ -4,6 +4,9 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DatosAltaInscripcion } from '../../interfaces/datosAltaInscripcion';
 import { Inscripcion } from '../../interfaces/inscripcion';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
+import { DesinscribirseDialogComponent } from '../../desinscribirse-dialog/desinscribirse-dialog.component';
 
 @Component({
   selector: 'app-inscripcion',
@@ -22,7 +25,8 @@ export class InscripcionComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private bdService: BDService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -126,23 +130,27 @@ export class InscripcionComponent implements OnInit {
   }
 
   cancelarInscripcion() {
-    var inscripcionID = null;
+    var inscripcionID = 0;
     this.inscripciones.forEach((inscripcion) => {
       if (inscripcion.id_curso === this.curso.id) {
         inscripcionID = inscripcion.id;
       }
     });
-    if (inscripcionID !== null) {
-      this.bdService.borrarInscripcion(inscripcionID).subscribe({
-        next: () => {
-          alert('Te has Desinscrito del curso');
-          this.router.navigate(['/home']);
-        },
-        error: (error) => {
-          console.error('Error al inscribir:', error);
-          this.mensaje = error.error?.result || 'Error al inscribir';
-        },
-      });
-    }
+    const dialogRef = this.dialog.open(DesinscribirseDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.bdService.borrarInscripcion(inscripcionID).subscribe({
+          next: () => {
+            console.log('Centro eliminado:', inscripcionID);
+            alert('Te has desinscribido del curso');
+            this.router.navigate(['/home']);
+          },
+          error: (error) => {
+            console.error('Error al eliminar centro:', error);
+          },
+        });
+      }
+    });
   }
 }

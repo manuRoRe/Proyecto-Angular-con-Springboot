@@ -1,0 +1,54 @@
+*{
+    background-color: white;
+}
+
+
+  
+  /* Estilo para el contenido del modal */
+  mat-dialog-content {
+    font-size: 1rem;
+    text-align: center;
+    color: #ffffff;
+    padding: 20px 0;
+  }
+
+  h1{
+    background-color: white !important;
+  }
+
+  
+  /* Estilo para los botones del modal */
+  .button-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+  }
+  
+  /* Estilo para el botón de cancelar */
+  button[mat-button]:first-child {
+    background-color: #f44336; /* Rojo para cancelar */
+    color: white;
+    font-weight: bold;
+    width: 120px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Estilo para el botón de confirmar */
+  button[mat-button]:last-child {
+    background-color: #4caf50; /* Verde para confirmar */
+    color: white;
+    font-weight: bold;
+    width: 120px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Efectos cuando el usuario pasa el ratón por encima de los botones */
+  button[mat-button]:hover {
+    opacity: 0.9;
+  }
+  
+  /* Efecto para el fondo del modal */
+
+  
