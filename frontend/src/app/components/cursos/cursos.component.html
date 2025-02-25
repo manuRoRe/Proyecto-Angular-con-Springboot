@@ -43,7 +43,7 @@
         />
 
         <div class="card-body">
-          <h5 class="card-title">{{ curso.nombre }}</h5>
+          <h3 class="card-title">{{ curso.nombre }}</h3>
           <div *ngFor="let centro of centros">
             <p *ngIf="centro.id === curso.idCentro">
               <strong>Centro:</strong> {{ centro.nombre }}

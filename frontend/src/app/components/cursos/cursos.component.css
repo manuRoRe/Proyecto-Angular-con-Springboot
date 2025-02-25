@@ -3,6 +3,10 @@
     padding: 10px;
     height: 400px;
 }
+
+.card img{
+    height: 200px;
+}
 .bg-academia{
     background-color: rgb(93, 71, 47);
     color: white;
