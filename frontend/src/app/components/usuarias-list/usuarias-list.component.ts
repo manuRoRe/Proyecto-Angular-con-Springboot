@@ -18,6 +18,8 @@ import { Curso } from '../../interfaces/curso';
 import { Centro } from '../../interfaces/centro';
 import { Inscripcion } from '../../interfaces/inscripcion';
 import { MatCard } from '@angular/material/card';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-usuarias-list',
@@ -86,7 +88,11 @@ export class UsuariasListComponent implements OnInit {
     this.inscripciones
   );
 
-  constructor(private bdService: BDService, private router: Router) {}
+  constructor(
+    private bdService: BDService,
+    private router: Router,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.obtenerUsuarias();
@@ -117,16 +123,22 @@ export class UsuariasListComponent implements OnInit {
   }
 
   borrarUsuario(usuario: Usuario): void {
-    this.bdService.borrarUsuario(usuario.id).subscribe({
-      next: () => {
-        this.usuarios = this.usuarios.filter((u) => u.id !== usuario.id); // Eliminar de la lista local
-        this.dataSource.data = this.usuarios; // Actualizar la tabla
-        console.log('Usuario eliminado:', usuario);
-        alert('Usuario eliminado');
-      },
-      error: (error) => {
-        console.error('Error al eliminar usuario:', error);
-      },
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.bdService.borrarUsuario(usuario.id).subscribe({
+          next: () => {
+            this.usuarios = this.usuarios.filter((u) => u.id !== usuario.id);
+            this.dataSource.data = this.usuarios;
+            console.log('Usuario eliminado:', usuario);
+            alert('Usuario eliminado');
+          },
+          error: (error) => {
+            console.error('Error al eliminar usuario:', error);
+          },
+        });
+      }
     });
   }
 
@@ -147,16 +159,22 @@ export class UsuariasListComponent implements OnInit {
   }
 
   borrarCurso(curso: Curso): void {
-    this.bdService.borrarCurso(curso.id).subscribe({
-      next: () => {
-        this.cursos = this.cursos.filter((c) => c.id !== curso.id); // Eliminar de la lista local
-        this.dataSourceCurso.data = this.cursos; // Actualizar la tabla
-        console.log('Curso eliminado:', curso);
-        alert('Curso eliminado');
-      },
-      error: (error) => {
-        console.error('Error al eliminar curso:', error);
-      },
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.bdService.borrarCurso(curso.id).subscribe({
+          next: () => {
+            this.cursos = this.cursos.filter((c) => c.id !== curso.id);
+            this.dataSourceCurso.data = this.cursos;
+            console.log('Curso eliminado:', curso);
+            alert('Curso eliminado');
+          },
+          error: (error) => {
+            console.error('Error al eliminar curso:', error);
+          },
+        });
+      }
     });
   }
 
@@ -181,16 +199,22 @@ export class UsuariasListComponent implements OnInit {
   }
 
   borrarCentro(centro: Centro): void {
-    this.bdService.borrarCentro(centro.id).subscribe({
-      next: () => {
-        this.centros = this.centros.filter((c) => c.id !== centro.id); // Eliminar de la lista local
-        this.dataSourceCentro.data = this.centros; // Actualizar la tabla
-        console.log('Centro eliminado:', centro);
-        alert('Centro eliminado');
-      },
-      error: (error) => {
-        console.error('Error al eliminar centro:', error);
-      },
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.bdService.borrarCentro(centro.id).subscribe({
+          next: () => {
+            this.centros = this.centros.filter((c) => c.id !== centro.id);
+            this.dataSourceCentro.data = this.centros;
+            console.log('Centro eliminado:', centro);
+            alert('Centro eliminado');
+          },
+          error: (error) => {
+            console.error('Error al eliminar centro:', error);
+          },
+        });
+      }
     });
   }
 
@@ -216,18 +240,24 @@ export class UsuariasListComponent implements OnInit {
   }
 
   borrarInscripcion(inscripcion: Inscripcion): void {
-    this.bdService.borrarInscripcion(inscripcion.id).subscribe({
-      next: () => {
-        this.inscripciones = this.inscripciones.filter(
-          (i) => i.id !== inscripcion.id
-        ); // Eliminar de la lista local
-        this.dataSourceInscripcion.data = this.inscripciones; // Actualizar la tabla
-        console.log('Inscripcion eliminada:', inscripcion);
-        alert('Inscripcion eliminada');
-      },
-      error: (error) => {
-        console.error('Error al eliminar inscripcion:', error);
-      },
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.bdService.borrarInscripcion(inscripcion.id).subscribe({
+          next: () => {
+            this.inscripciones = this.inscripciones.filter(
+              (i) => i.id !== inscripcion.id
+            );
+            this.dataSourceInscripcion.data = this.inscripciones;
+            console.log('Inscripcion eliminada:', inscripcion);
+            alert('Inscripcion eliminada');
+          },
+          error: (error) => {
+            console.error('Error al eliminar inscripcion:', error);
+          },
+        });
+      }
     });
   }
 
