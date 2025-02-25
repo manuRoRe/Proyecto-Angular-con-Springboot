@@ -1,21 +1,17 @@
-/* Estilo para el título del modal */
-mat-dialog-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #ffffff; /* Color principal, puedes cambiarlo según tu tema */
-    text-align: center;
-  }
+*{
+    background-color: white;
+}
   
   /* Estilo para el contenido del modal */
   mat-dialog-content {
     font-size: 1rem;
     text-align: center;
-    color: #555;
+    color: #ffffff;
     padding: 20px 0;
   }
   
   /* Estilo para los botones del modal */
-  mat-dialog-actions {
+  .button-container {
     display: flex;
     justify-content: space-around;
     padding: 10px;
@@ -47,9 +43,5 @@ mat-dialog-title {
   }
   
   /* Efecto para el fondo del modal */
-  ::ng-deep .mat-dialog-container {
-    background-color: #fafafa; /* Fondo más claro */
-    border-radius: 8px; /* Bordes redondeados */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra suave */
-  }
+
   
