@@ -3,13 +3,29 @@
   <form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()">
     <!-- Nombre -->
     <div class="mb-3">
-      <label for="nombre" class="form-label">Nombre</label>
-      <input
-        type="text"
-        id="nombre"
-        class="form-control"
-        formControlName="nombre"
-      />
+      <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre *</label>
+        <input
+          type="text"
+          id="nombre"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              usuarioForm.get('nombre')?.invalid &&
+              usuarioForm.get('nombre')?.touched
+          }"
+          formControlName="nombre"
+        />
+      </div>
+      <div
+        *ngIf="
+          usuarioForm.get('nombre')?.hasError('required') &&
+          usuarioForm.get('nombre')?.touched
+        "
+        class="text-danger"
+      >
+        El nombre es obligatorio.
+      </div>
     </div>
 
     <!-- Apellidos -->
@@ -25,13 +41,42 @@
 
     <!-- Correo Electrónico -->
     <div class="mb-3">
-      <label for="email" class="form-label">Correo Electrónico</label>
+      <label for="email" class="form-label">Correo Electrónico *</label>
       <input
         type="email"
         id="email"
         class="form-control"
+        [ngClass]="{
+          'is-invalid':
+            usuarioForm.get('email')?.invalid &&
+            usuarioForm.get('email')?.touched
+        }"
         formControlName="email"
       />
+      <div
+        *ngIf="
+          usuarioForm.get('email')?.hasError('required') &&
+          usuarioForm.get('email')?.touched
+        "
+        class="text-danger"
+      >
+        El correo es obligatorio.
+      </div>
+      <div
+        *ngIf="
+          usuarioForm.get('email')?.hasError('email') &&
+          usuarioForm.get('email')?.touched
+        "
+        class="text-danger"
+      >
+        El formato del correo no es válido.
+      </div>
+      <div
+        *ngIf="usuarioForm.get('email')?.hasError('emailOcupado')"
+        class="text-danger"
+      >
+        Este correo ya está en uso.
+      </div>
     </div>
 
     <!-- Sexo -->
@@ -79,13 +124,36 @@
 
     <!-- Contraseña -->
     <div class="mb-3">
-      <label for="password" class="form-label">Contraseña</label>
+      <label for="password" class="form-label">Contraseña *</label>
       <input
-        type="text"
+        type="password"
         id="password"
         class="form-control"
+        [ngClass]="{
+          'is-invalid':
+            usuarioForm.get('password')?.invalid &&
+            usuarioForm.get('password')?.touched
+        }"
         formControlName="password"
       />
+      <div
+        *ngIf="
+          usuarioForm.get('password')?.hasError('required') &&
+          usuarioForm.get('password')?.touched
+        "
+        class="text-danger"
+      >
+        La contraseña es obligatoria.
+      </div>
+      <div
+        *ngIf="
+          usuarioForm.get('password')?.hasError('minlength') &&
+          usuarioForm.get('password')?.touched
+        "
+        class="text-danger"
+      >
+        La contraseña debe tener al menos 4 caracteres.
+      </div>
     </div>
 
     <div class="form-check">

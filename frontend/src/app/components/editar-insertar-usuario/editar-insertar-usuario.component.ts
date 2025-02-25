@@ -5,10 +5,13 @@ import {
   FormControl,
   Validators,
   ReactiveFormsModule,
+  AsyncValidatorFn,
+  AbstractControl,
 } from '@angular/forms';
 import { BDService } from '../../services/bd.service';
 import { Usuario } from '../../interfaces/usuario';
 import { CommonModule } from '@angular/common';
+import { catchError, debounceTime, Observable, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-editar-usuario',
@@ -30,8 +33,12 @@ export class EditarInsertarUsuarioComponent implements OnInit {
     // Definir la estructura del formulario
     this.usuarioForm = new FormGroup({
       nombre: new FormControl('', Validators.required),
-      apellidos: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, Validators.email]),
+      apellidos: new FormControl(''),
+      email: new FormControl(
+        '',
+        [Validators.required, Validators.email],
+        [this.emailDisponibleValidator()]
+      ),
       sexo: new FormControl(''),
       pais: new FormControl(''),
       aficiones: new FormControl([]),
@@ -44,6 +51,21 @@ export class EditarInsertarUsuarioComponent implements OnInit {
     // Extraer el id de la ruta
     this.us = +this.route.snapshot.paramMap.get('id')!; // Usamos '+' para convertir el valor a número
     this.cargarUsuario();
+  }
+  emailDisponibleValidator(): AsyncValidatorFn {
+    return (
+      control: AbstractControl
+    ): Observable<{ emailOcupado: boolean } | null> => {
+      return control.value
+        ? this.bdService.existeEmail(control.value).pipe(
+            debounceTime(500),
+            switchMap((existe) =>
+              existe ? of({ emailOcupado: true }) : of(null)
+            ),
+            catchError(() => of(null))
+          )
+        : of(null);
+    };
   }
 
   cargarUsuario(): void {
