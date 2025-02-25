@@ -1,7 +1,39 @@
 <div class="container">
   <h2 class="text-center">Lista de Cursos</h2>
+
+  <!-- Radio Buttons para Filtrar -->
+  <div class="d-flex justify-content-center my-3">
+    <label class="mx-2">
+      <input
+        type="radio"
+        name="filtro"
+        value="todos"
+        [(ngModel)]="filtroSeleccionado"
+      />
+      Todos los cursos
+    </label>
+    <label class="mx-2">
+      <input
+        type="radio"
+        name="filtro"
+        value="misCursos"
+        [(ngModel)]="filtroSeleccionado"
+      />
+      Mis cursos
+    </label>
+    <label class="mx-2">
+      <input
+        type="radio"
+        name="filtro"
+        value="otros"
+        [(ngModel)]="filtroSeleccionado"
+      />
+      Otros cursos
+    </label>
+  </div>
+
   <div class="row">
-    <div class="col-md-4" *ngFor="let curso of cursos">
+    <div class="col-md-4" *ngFor="let curso of filtrarCursos()">
       <div class="card mb-3">
         <img
           *ngIf="curso.imagen"
@@ -18,18 +50,17 @@
             </p>
           </div>
 
-          <!-- Verifica si el usuario ya está inscrito en el curso -->
-          <form method="GET" action="/inscripcion">
-            <input type="hidden" value="{{ curso.id }}" name="idCurso" />
+          <form method="GET" action="/inscripcion" ngNoForm>
+            <input type="hidden" name="idCurso" [value]="curso.id" />
 
-            <!-- Si ya está inscrito, muestra el botón "YA INSCRITO" y lo desactiva -->
             <button
               *ngIf="!verificarInscripcion(curso.id)"
-              class="btn btn-primary"
+              class="btn bg-academia"
               type="submit"
             >
               Inscribirse
             </button>
+
             <button
               *ngIf="verificarInscripcion(curso.id)"
               class="btn btn-secondary"

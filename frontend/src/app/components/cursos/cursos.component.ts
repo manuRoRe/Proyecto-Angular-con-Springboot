@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Curso } from '../../interfaces/curso';
-import { BDService } from '../../services/bd.service';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms'; // <-- Importa FormsModule
+import { Curso } from '../../interfaces/curso';
 import { Centro } from '../../interfaces/centro';
 import { Inscripcion } from '../../interfaces/inscripcion';
+import { BDService } from '../../services/bd.service';
 
 @Component({
   selector: 'app-cursos',
-  imports: [CommonModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule], // <-- Agrega FormsModule aquí
   templateUrl: './cursos.component.html',
   styleUrls: ['./cursos.component.css'],
 })
@@ -16,12 +18,12 @@ export class CursosComponent implements OnInit {
   centros: Centro[] = [];
   inscripciones: Inscripcion[] = [];
   usuario: any = {};
+  filtroSeleccionado: string = 'todos';
 
   constructor(private bdService: BDService) {}
 
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
-      // Verifica si el jwt existe en localStorage
       const jwt = localStorage.getItem('jwt');
       if (jwt) {
         this.bdService.getAuthenticatedUser().subscribe(
@@ -67,7 +69,7 @@ export class CursosComponent implements OnInit {
     if (this.usuario.id) {
       this.bdService.getInscripcionesPorUsuario(this.usuario.id).subscribe({
         next: (inscripciones) => {
-          this.inscripciones = inscripciones; // ✅ Guarda las inscripciones
+          this.inscripciones = inscripciones;
           console.log('Inscripciones guardadas:', this.inscripciones);
         },
         error: (error) => {
@@ -81,5 +83,16 @@ export class CursosComponent implements OnInit {
     return this.inscripciones.some(
       (inscripcion) => inscripcion.id_curso === idCurso
     );
+  }
+
+  filtrarCursos(): Curso[] {
+    if (this.filtroSeleccionado === 'misCursos') {
+      return this.cursos.filter((curso) => this.verificarInscripcion(curso.id));
+    } else if (this.filtroSeleccionado === 'otros') {
+      return this.cursos.filter(
+        (curso) => !this.verificarInscripcion(curso.id)
+      );
+    }
+    return this.cursos;
   }
 }
