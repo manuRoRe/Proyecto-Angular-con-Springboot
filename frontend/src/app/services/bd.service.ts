@@ -120,4 +120,15 @@ export class BDService {
   borrarInscripcion(id: number): Observable<any> {
     return this.http.delete(`${this.baseURL}/inscripcion/eliminar/${id}`);
   }
+
+  getInscripcionById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.baseURL}/inscripcion/obtener/${id}`);
+  }
+
+  actualizarInscripcion(id: number, inscripcion: Inscripcion): Observable<any> {
+    return this.http.put(
+      `${this.baseURL}/inscripcion/actualizar/${id}`,
+      inscripcion
+    );
+  }
 }
