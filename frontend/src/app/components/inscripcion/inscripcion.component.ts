@@ -124,4 +124,25 @@ export class InscripcionComponent implements OnInit {
       (inscripcion) => inscripcion.id_curso === this.curso.id
     );
   }
+
+  cancelarInscripcion() {
+    var inscripcionID = null;
+    this.inscripciones.forEach((inscripcion) => {
+      if (inscripcion.id_curso === this.curso.id) {
+        inscripcionID = inscripcion.id;
+      }
+    });
+    if (inscripcionID !== null) {
+      this.bdService.borrarInscripcion(inscripcionID).subscribe({
+        next: () => {
+          alert('Te has Desinscrito del curso');
+          this.router.navigate(['/home']);
+        },
+        error: (error) => {
+          console.error('Error al inscribir:', error);
+          this.mensaje = error.error?.result || 'Error al inscribir';
+        },
+      });
+    }
+  }
 }

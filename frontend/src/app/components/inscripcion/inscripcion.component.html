@@ -30,11 +30,11 @@
         </button>
         <button
           *ngIf="verificarInscripcion()"
-          class="btn btn-secondary"
+          class="btn btn-danger"
           type="button"
-          disabled
+          (click)="cancelarInscripcion()"
         >
-          YA INSCRITO
+          Cancelar Inscripcion
         </button>
       </form>
     </div>
